@@ -19,8 +19,7 @@ myWorkspaces = map show [1..9]
 --   spawnOnce "emacs"
 
 myKeys = [
-  ("<F1>", spawn myTerminal),
-  ("<F5>", spawn myLauncher),
+  ("M-p", spawn myLauncher),
   ("M-m", namedScratchpadAction scratchpads "monitor"),
   ("M-t", namedScratchpadAction scratchpads "term"),
   ("M-r", namedScratchpadAction scratchpads "ranger"),
