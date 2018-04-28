@@ -6,6 +6,7 @@ import XMonad.Layout.Spacing
 import XMonad.Prompt as P
 import XMonad.Prompt.Man
 import XMonad.Util.NamedScratchpad
+import XMonad.Actions.GridSelect
 
 myLauncher = "rofi -show run -theme arthur"
 myTerminal = "termite"
@@ -22,6 +23,7 @@ myKeys = [
   ("M-t", namedScratchpadAction scratchpads "term"),
   ("M-r", namedScratchpadAction scratchpads "ranger"),
   -- ("M-m", manPrompt P.def),
+  ("M-g", goToSelected defaultGSConfig),
   ("M-S-s", spawn "systemctl suspend")
   ]
 
