@@ -2,7 +2,6 @@ import XMonad
 import qualified XMonad.StackSet as W
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Layout.Spacing
--- import XMonad.Hooks.WallpaperSetter
 -- import Xmonad.Util.SpawnOnce
 import XMonad.Prompt as P
 import XMonad.Prompt.Man
@@ -13,7 +12,6 @@ myTerminal = "termite"
 myModMask = mod4Mask
 myLayoutHook = Tall 1 (3/100) (1/2) ||| Full
 myWorkspaces = map show [1..9]
--- myLogHook = wallpaperSetter defWallpaperConf
 -- myStartupHook = do
 --   spawnOnce "firefox"
 --   spawnOnce "emacs"
