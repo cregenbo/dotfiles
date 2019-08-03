@@ -8,8 +8,8 @@ import XMonad.Prompt.Man
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.GridSelect
 
-myLauncher = "rofi -show run -theme arthur"
-myTerminal = "termite"
+myLauncher = "rofi -show run -theme DarkBlue"
+myTerminal = "kitty"
 myModMask = mod4Mask
 myLayoutHook = Tall 1 (3/100) (1/2) ||| Full
 myWorkspaces = map show [1..9]
