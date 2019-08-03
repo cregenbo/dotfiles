@@ -7,11 +7,13 @@ import XMonad.Prompt as P
 import XMonad.Prompt.Man
 import XMonad.Util.NamedScratchpad
 import XMonad.Actions.GridSelect
+import XMonad.Layout.PerScreen
+import XMonad.Layout.ThreeColumns
 
 myLauncher = "rofi -show run -theme DarkBlue"
 myTerminal = "kitty"
 myModMask = mod4Mask
-myLayoutHook = Tall 1 (3/100) (1/2) ||| Full
+myLayoutHook = ifWider 1440 (ThreeColMid 1 (3/100) (1/2) ||| Tall 1 (3/100) (1/2) ||| Full) Full
 myWorkspaces = map show [1..9]
 -- myStartupHook = do
 --   spawnOnce "firefox"
@@ -38,7 +40,7 @@ main = xmonad $ def
   { terminal    = myTerminal
   , modMask     = myModMask
   , borderWidth = 0
-  , layoutHook = smartSpacing 2 $ myLayoutHook
+  , layoutHook = smartSpacing 5 $ myLayoutHook
   , workspaces = myWorkspaces
   -- , logHook = myLogHook
   -- , startupHook = myStartupHook
