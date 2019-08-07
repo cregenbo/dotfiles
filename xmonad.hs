@@ -14,6 +14,7 @@ import Control.Monad
 import XMonad.Actions.TopicSpace
 import Data.Map (fromList)
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.Spacing
 
 myLauncher = "rofi -show run -theme DarkBlue"
 myTerminal = "kitty"
@@ -71,7 +72,9 @@ goto = switchTopic myTopicConfig
 promptedGoto :: X ()
 promptedGoto = workspacePrompt myXPConfig goto
 
-myLayoutHook = ifWider 1440 (ThreeColMid 1 (3/100) (1/2) ||| Tall 1 (3/100) (1/2) ||| Full) Full
+mainScreenLayoutHook = spacingRaw True (Border 5 5 5 5) True (Border 5 5 5 5) True $ ThreeColMid 1 (3/100) (1/2) ||| Tall 1 (3/100) (1/2) ||| Full
+portraitScreenLayoutHook = Full
+myLayoutHook = ifWider 1440 mainScreenLayoutHook portraitScreenLayoutHook
 
 myXPConfig :: XPConfig
 myXPConfig = def
