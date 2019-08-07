@@ -33,6 +33,7 @@ myTopics =
   , "java"
   , "anki"
   , "nixos"
+  , "misc"
   ]
 
 myTopicConfig :: TopicConfig
@@ -43,6 +44,7 @@ myTopicConfig = def
     , ("java", "~")
     , ("anki", "~")
     , ("nixos", "/etc/nixos")
+    , ("misc", "~")
     ]
   , defaultTopic = dashboard
   , topicActions = fromList $
