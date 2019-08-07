@@ -80,7 +80,7 @@ goto = switchTopic myTopicConfig
 promptedGoto :: X ()
 promptedGoto = workspacePrompt myXPConfig goto
 
-mainScreenLayoutHook = spacingRaw True (Border 5 5 5 5) True (Border 5 5 5 5) True $ ThreeColMid 1 (3/100) (1/2) ||| Tall 1 (3/100) (1/2) ||| Full
+mainScreenLayoutHook = spacingRaw True (Border 5 5 5 5) True (Border 5 5 5 5) True $ ThreeColMid 1 (3/100) (3/7) ||| Tall 1 (3/100) (1/2) ||| Full
 portraitScreenLayoutHook = Full
 myLayoutHook = ifWider 1440 mainScreenLayoutHook portraitScreenLayoutHook
 
