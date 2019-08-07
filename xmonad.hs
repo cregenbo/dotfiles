@@ -60,6 +60,10 @@ myLayoutHook = ifWider 1440 (ThreeColMid 1 (3/100) (1/2) ||| Tall 1 (3/100) (1/2
 
 myXPConfig :: XPConfig
 myXPConfig = def
+  { position = Top
+  , font = "xft:Iosevka:style=Bold:pixelsize=20"
+  , height = 40
+  }
 
 myKeys = [
   ("M-p", spawn myLauncher),
