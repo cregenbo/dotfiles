@@ -24,9 +24,11 @@ myTerminalWithDir dir = myTerminal ++ " -d " ++ dir
 
 myModMask = mod4Mask
 
+dashboard = "dashboard"
+
 myTopics :: [Topic]
 myTopics =
-  [ "dashboard"
+  [ dashboard
   , "xmonad"
   , "java"
   , "anki"
@@ -42,9 +44,9 @@ myTopicConfig = def
     , ("anki", "~")
     , ("nixos", "/etc/nixos")
     ]
-  , defaultTopic = "dashboard"
+  , defaultTopic = dashboard
   , topicActions = fromList $
-    [ ("dashboard", spawn "firefox -new-window www.google.com")
+    [ ("dashboard", spawn "firefox -new-window www.youtube.com")
     , ("xmonad", spawn "gvim ~/dotfiles/xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
     , ("anki", spawn "anki")
@@ -111,7 +113,7 @@ myConfig = do
     , layoutHook = myLayoutHook
     , workspaces = myTopics
     -- , logHook = myLogHook
-    , startupHook = setWMName "LG3D"
+    , startupHook = setWMName "LG3D" >> switchTopic myTopicConfig dashboard
     --, manageHook = namedScratchpadManageHook scratchpads
     } `additionalKeysP` myKeys
 
