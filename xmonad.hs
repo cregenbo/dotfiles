@@ -48,8 +48,10 @@ myTopicConfig = def
     , ("xmonad", spawn "gvim ~/dotfiles/xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
     , ("anki", spawn "anki")
-    , ("nixos", spawnShellWith "sudoedit vim configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
+    , ("nixos", spawnShellWith "sudoedit configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
     ]
+  , maxTopicHistory = 10
+  , defaultTopicAction = const (return ())
   }
 
 spawnShellWith :: String -> X ()
