@@ -17,6 +17,10 @@ import XMonad.Hooks.SetWMName
 
 myLauncher = "rofi -show run -theme DarkBlue"
 myTerminal = "kitty"
+
+myTerminalWithDir :: Dir -> String
+myTerminalWithDir dir = myTerminal ++ " -d " ++ dir
+
 myModMask = mod4Mask
 
 myTopics :: [Topic]
@@ -25,6 +29,7 @@ myTopics =
   , "xmonad"
   , "java"
   , "anki"
+  , "nixos"
   ]
 
 myTopicConfig :: TopicConfig
@@ -34,6 +39,7 @@ myTopicConfig = def
     , ("xmonad", "~/dotfiles")
     , ("java", "~")
     , ("anki", "~")
+    , ("nixos", "/etc/nixos")
     ]
   , defaultTopic = "dashboard"
   , topicActions = fromList $
@@ -41,14 +47,23 @@ myTopicConfig = def
     , ("xmonad", spawn "gvim ~/dotfiles/xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
     , ("anki", spawn "anki")
+    , ("nixos", spawnShellWith "sudo vim configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
     ]
   }
+
+spawnShellWith :: String -> X ()
+spawnShellWith cmd = do
+  dir <- currentTopicDir myTopicConfig
+  spawnShellInWith dir cmd
+
+spawnShellInWith :: Dir -> String -> X ()
+spawnShellInWith dir cmd = spawn $ myTerminalWithDir dir ++ " -- " ++ cmd
 
 spawnShell :: X ()
 spawnShell = currentTopicDir myTopicConfig >>= spawnShellIn
 
 spawnShellIn :: Dir -> X ()
-spawnShellIn dir = spawn myTerminal
+spawnShellIn dir = spawn $ myTerminalWithDir dir
 
 goto :: Topic -> X ()
 goto = switchTopic myTopicConfig
@@ -65,13 +80,14 @@ myXPConfig = def
   , height = 40
   }
 
-myKeys = [
-  ("M-p", spawn myLauncher),
-  ("M-m", namedScratchpadAction scratchpads "monitor"),
-  ("M-t", namedScratchpadAction scratchpads "term"),
-  ("M-r", namedScratchpadAction scratchpads "ranger"),
-  ("M-g", promptedGoto),
-  ("M-S-s", spawn "systemctl suspend")
+myKeys = 
+  [ ("M-p", spawn myLauncher)
+  , ("M-m", namedScratchpadAction scratchpads "monitor")
+  , ("M-t", namedScratchpadAction scratchpads "term")
+  , ("M-r", namedScratchpadAction scratchpads "ranger")
+  , ("M-g", promptedGoto)
+  , ("M-S-s", spawn "systemctl suspend")
+  , ("M-S-<Return>", spawnShell)
   ]
 
 scratchpads = [ NS "monitor" (myTerminal ++ " -e htop") (title =? "htop") scratchFloat
