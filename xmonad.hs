@@ -34,6 +34,7 @@ myTopics =
   , "anki"
   , "nixos"
   , "misc"
+  , "spotify"
   ]
 
 myTopicConfig :: TopicConfig
@@ -53,6 +54,7 @@ myTopicConfig = def
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
     , ("anki", spawn "anki")
     , ("nixos", spawnShellWith "sudoedit configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
+    , ("spotify", spawn "spotify")
     ]
   , maxTopicHistory = 10
   , defaultTopicAction = const (return ())
