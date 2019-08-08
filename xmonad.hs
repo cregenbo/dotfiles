@@ -35,6 +35,7 @@ myTopics =
   , "nixos"
   , "misc"
   , "spotify"
+  , "private"
   ]
 
 myTopicConfig :: TopicConfig
@@ -55,6 +56,7 @@ myTopicConfig = def
     , ("aws", spawn "anki" >> spawn "firefox -search \"aws glossary\"" >> spawnShell)
     , ("nixos", spawnShellWith "sudoedit configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
     , ("spotify", spawn "spotify")
+    , ("private", spawn "firefox -private-window duckduckgo.com")
     ]
   , maxTopicHistory = 10
   , defaultTopicAction = const (return ())
