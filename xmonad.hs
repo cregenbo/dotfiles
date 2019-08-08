@@ -31,7 +31,7 @@ myTopics =
   [ dashboard
   , "xmonad"
   , "java"
-  , "anki"
+  , "aws"
   , "nixos"
   , "misc"
   , "spotify"
@@ -43,7 +43,7 @@ myTopicConfig = def
     [ ("dashboard", "~")
     , ("xmonad", "~/dotfiles")
     , ("java", "~")
-    , ("anki", "~")
+    , ("aws", "~/Documents/AWS")
     , ("nixos", "/etc/nixos")
     , ("misc", "~")
     ]
@@ -52,7 +52,7 @@ myTopicConfig = def
     [ ("dashboard", spawn "firefox -new-window www.youtube.com")
     , ("xmonad", spawn "gvim ~/dotfiles/xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
-    , ("anki", spawn "anki")
+    , ("aws", spawn "anki" >> spawn "firefox -search \"aws glossary\"" >> spawnShell)
     , ("nixos", spawnShellWith "sudoedit configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
     , ("spotify", spawn "spotify")
     ]
