@@ -51,10 +51,10 @@ myTopicConfig = def
   , defaultTopic = dashboard
   , topicActions = fromList $
     [ ("dashboard", spawn "firefox -new-window www.youtube.com")
-    , ("xmonad", spawnShellWith "vim xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
+    , ("xmonad", spawnShellWith "nvim xmonad.hs" >> spawnShell >> spawn "firefox -search \"xmonad hackage\"")
     , ("java", spawn "idea-ultimate" >> spawn "firefox -new-window www.google.com")
     , ("aws", spawn "anki" >> spawn "firefox -search \"aws glossary\"" >> spawnShell)
-    , ("nixos", spawnShellWith "sudoedit configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
+    , ("nixos", spawnShellWith "sudo nvim configuration.nix" >> spawn "firefox -new-window nixos.org" >> spawnShell)
     , ("spotify", spawn "spotify")
     , ("private", spawn "firefox -private-window duckduckgo.com")
     ]
