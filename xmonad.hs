@@ -7,16 +7,19 @@ import XMonad.Layout.Spacing
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Dmenu
 import XMonad.Hooks.DynamicLog
+import XMonad.Actions.CycleWS
+import XMonad.Layout.NoBorders
+import XMonad.Hooks.SetWMName
 
 import qualified Data.Map as M
 
-myLayout = spacingRaw True (Border 0 0 0 0) False (Border 7 7 7 7) True $ Tall 1 (3/100) (1/2) ||| simpleTabbed
+myLayout = smartBorders $ spacingRaw True (Border 0 0 0 0) False (Border 7 7 7 7) True $ Tall 1 (3/100) (1/2) ||| Full
 
 myStartup:: X ()
 myStartup = do
-  spawnOnce "feh --bg-fill ~/Pictures/marcelo-cidrack-HME4dq3FCeI-unsplash.jpg"
-  spawnOnce "emacs --daemon"
+  spawnOnce "~/dotfiles/feh-slideshow.sh"
   spawnOnce "picom --config ~/.config/picom/picom.conf"
+  setWMName "LG3D"
 
 main :: IO ()
 main = xmonad =<<  myXmobar myConfig
@@ -35,6 +38,9 @@ myConfig = ewmh $ def
 myKeyBindings :: [(String, X())]
 myKeyBindings =
   [ ("M-w", configFilesDmenu)
+  , ("M-;", toggleWS)
+  , ("M-e", spawn "emacsclient -c")
+  , ("M-S-s", spawn "systemctl suspend")
   ]
 
 configFiles :: M.Map String String
