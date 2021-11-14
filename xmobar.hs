@@ -1,4 +1,4 @@
-Config { font = "xft:IBM Plex Mono Medium"
+Config { font = "xft:IBM Plex Mono Medium:size=10"
        , additionalFonts = []
        , borderColor = "black"
        , border = TopB

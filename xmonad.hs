@@ -10,6 +10,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Actions.CycleWS
 import XMonad.Layout.NoBorders
 import XMonad.Hooks.SetWMName
+import XMonad.Actions.WindowBringer
 
 import qualified Data.Map as M
 
@@ -25,7 +26,7 @@ main :: IO ()
 main = xmonad =<<  myXmobar myConfig
 
 myXmobar = statusBar "xmobar ~/.xmonad/xmobar.hs" myXmobarPP toggleStrutsKey
-myXmobarPP = xmobarPP {ppTitle   = xmobarColor "green"  "" . shorten 120, ppLayout = const ""}
+myXmobarPP = xmobarPP {ppTitle   = xmobarColor "green"  "" . shorten 120}
 toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b)
 
 myConfig = ewmh $ def
@@ -37,7 +38,7 @@ myConfig = ewmh $ def
 
 myKeyBindings :: [(String, X())]
 myKeyBindings =
-  [ ("M-w", configFilesDmenu)
+  [ ("M-w", gotoMenu)
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
   , ("M-S-s", spawn "systemctl suspend")
