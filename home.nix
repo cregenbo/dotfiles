@@ -32,9 +32,12 @@
     };
   };
 
+  fonts.fontconfig.enable = true;
+
   programs.fzf.enable = true;
 
   home.packages = with pkgs; [
+    nerdfonts
     btop
     bat
     bat-extras.batman
