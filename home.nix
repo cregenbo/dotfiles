@@ -29,6 +29,7 @@
       man = "batman";
       ssh = "kitty +kitten ssh";
       emacsclient = "TERM=xterm; emacsclient";
+      emc = "emacsclient";
     };
   };
 
@@ -38,6 +39,7 @@
 
   home.packages = with pkgs; [
     nerdfonts
+    htop
     btop
     bat
     bat-extras.batman
