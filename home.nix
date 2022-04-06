@@ -45,7 +45,12 @@
     bat-extras.batman
     ripgrep
     fd
+    zsh-you-should-use
+    graphviz
+    xdot
   ];
+
+  programs.zathura.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
