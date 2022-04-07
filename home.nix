@@ -65,12 +65,32 @@
     package = pkgs.emacsGcc;
     extraPackages = epkgs: with epkgs; [
       magit
+      avy
       evil
+      evil-collection
+      evil-surround
+      evil-nerd-commenter
       use-package
       all-the-icons
       kaolin-themes
+      doom-themes
+      doom-modeline
       nix-mode
       org
+      org-roam
+      general
+      corfu
+      vertico
+      marginalia
+      consult
+      embark
+      orderless
+      which-key
+      no-littering
+      projectile
+      hydra
+      lsp-mode
+      lsp-ui
     ];
   };
 
