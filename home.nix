@@ -29,7 +29,7 @@
       man = "batman";
       ssh = "kitty +kitten ssh";
       emacsclient = "TERM=xterm; emacsclient";
-      emc = "emacsclient";
+      e = "emacsclient";
     };
   };
 
@@ -37,7 +37,11 @@
 
   programs.fzf.enable = true;
 
+  qt.enable = true;
+  gtk.enable = true;
+  
   home.packages = with pkgs; [
+    anki-bin
     nerdfonts
     htop
     btop
@@ -48,6 +52,9 @@
     zsh-you-should-use
     graphviz
     xdot
+    sshfs
+    elmPackages.elm
+    hcloud
   ];
 
   programs.zathura.enable = true;
@@ -60,12 +67,15 @@
   ];
 
   services.emacs.enable = true;
+  services.emacs.defaultEditor = true;
   programs.emacs = {
     enable = true;
     package = pkgs.emacsGcc;
     extraPackages = epkgs: with epkgs; [
       magit
       avy
+      pulsar
+      helpful
       evil
       evil-collection
       evil-surround
@@ -74,12 +84,14 @@
       all-the-icons
       kaolin-themes
       doom-themes
+      modus-themes
       doom-modeline
       nix-mode
-      org
       org-roam
+      anki-editor
       general
       corfu
+      cape
       vertico
       marginalia
       consult
@@ -91,6 +103,10 @@
       hydra
       lsp-mode
       lsp-ui
+      yasnippet
+      elm-mode
+      rainbow-delimiters
+      visual-fill-column
     ];
   };
 
@@ -107,6 +123,8 @@
     ];
   };
 
+  services.syncthing.enable = true;
+
   programs.starship.enable = true;
 
   programs.exa.enable = true;
@@ -116,7 +134,9 @@
     "$HOME/local/jetbrains"
   ];
   home.sessionVariables = {
-    EDITOR = "nvim";
+    QT_XCB_GL_INTEGRATION = "none"; # Disable QT GLX, otherwise Anki won't start
   };
   home.file.".emacs.d/init.el".source = ./init.el;
+  home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
+  home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
 }
