@@ -25,6 +25,8 @@
     enableSyntaxHighlighting = true;
     history.size = 100000;
     history.path = "${config.xdg.dataHome}/zsh/history";
+    oh-my-zsh.enable = true;
+    oh-my-zsh.plugins = [ "git" "sudo" ];
     shellAliases = {
       man = "batman";
       ssh = "kitty +kitten ssh";
@@ -41,6 +43,7 @@
   gtk.enable = true;
   
   home.packages = with pkgs; [
+    dmenu
     anki-bin
     nerdfonts
     htop
@@ -58,6 +61,10 @@
   ];
 
   programs.zathura.enable = true;
+
+  programs.qutebrowser = {
+    enable = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
@@ -82,8 +89,6 @@
       evil-nerd-commenter
       use-package
       all-the-icons
-      kaolin-themes
-      doom-themes
       modus-themes
       doom-modeline
       nix-mode
@@ -91,7 +96,6 @@
       anki-editor
       general
       corfu
-      cape
       vertico
       marginalia
       consult
@@ -129,6 +133,15 @@
 
   programs.exa.enable = true;
   programs.exa.enableAliases = true;
+
+  programs.kitty = {
+    enable = true;
+    settings = {
+      enable_audio_bell = false;
+      font_size = 13;
+      font_family = "Blex Mono Nerd Font Complete";
+    };
+  };
 
   home.sessionPath = [ 
     "$HOME/local/jetbrains"

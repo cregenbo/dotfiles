@@ -37,8 +37,6 @@
 
 (use-package all-the-icons)
 
-;; (load-theme 'wombat t)
-
 (use-package doom-modeline
   :config
   (doom-modeline-mode))
