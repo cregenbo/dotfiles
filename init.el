@@ -110,6 +110,16 @@
 
 (use-package helpful)
 
+(use-package hydra)
+
+(use-package projectile
+  :config
+  (projectile-mode 1))
+
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
 (dotfiles/leader
   "b" '(:ignore t :which-key "buffer")
   "bb" 'consult-buffer
