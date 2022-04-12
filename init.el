@@ -11,8 +11,8 @@
 
 (setq visible-bell t)
 
-(column-number-mode)
-(global-display-line-numbers-mode t)
+;; (column-number-mode)
+;; (global-display-line-numbers-mode t)
 
 (set-face-attribute 'default nil :height 130)
 

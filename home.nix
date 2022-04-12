@@ -26,12 +26,13 @@
     history.size = 100000;
     history.path = "${config.xdg.dataHome}/zsh/history";
     oh-my-zsh.enable = true;
-    oh-my-zsh.plugins = [ "git" "sudo" ];
+    oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
     shellAliases = {
       man = "batman";
       ssh = "kitty +kitten ssh";
       emacsclient = "TERM=xterm; emacsclient";
       e = "emacsclient";
+      ls = "exa --icons";
     };
   };
 
@@ -58,6 +59,7 @@
     sshfs
     elmPackages.elm
     hcloud
+    awscli2
   ];
 
   programs.zathura.enable = true;
@@ -132,16 +134,15 @@
   programs.starship.enable = true;
 
   programs.exa.enable = true;
-  programs.exa.enableAliases = true;
 
-  programs.kitty = {
-    enable = true;
-    settings = {
-      enable_audio_bell = false;
-      font_size = 13;
-      font_family = "Blex Mono Nerd Font Complete";
-    };
-  };
+  # programs.kitty = {
+  #   enable = true;
+  #   settings = {
+  #     enable_audio_bell = false;
+  #     font_size = 13;
+  #     font_family = "Blex Mono Nerd Font Complete";
+  #   };
+  # };
 
   home.sessionPath = [ 
     "$HOME/local/jetbrains"
@@ -152,4 +153,5 @@
   home.file.".emacs.d/init.el".source = ./init.el;
   home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
+  home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
 }
