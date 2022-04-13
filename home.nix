@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, stdenv, ... }:
 
 {
   # Home Manager needs a bit of information about you and the
@@ -50,6 +50,7 @@
   gtk.enable = true;
   
   home.packages = with pkgs; [
+    qutebrowser
     dmenu
     anki-bin
     nerdfonts
@@ -70,14 +71,13 @@
 
   programs.zathura.enable = true;
 
-  programs.qutebrowser = {
-    enable = true;
-  };
-
   nixpkgs.config.allowUnfree = true;
+
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    (import (builtins.fetchGit {
+      url = "https://github.com/nix-community/emacs-overlay.git";
+      ref = "master";
+      rev = "46353b3bce539bd99eace5584f804320661ec18a";
     }))
   ];
 
@@ -120,6 +120,7 @@
       rainbow-delimiters
       visual-fill-column
       org-bullets
+      elfeed
     ];
   };
 
@@ -162,4 +163,5 @@
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
   home.file.".config/picom/picom.conf".source = ./picom.conf;
+  home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
 }
