@@ -80,6 +80,8 @@
   (corfu-global-mode))
 
 (use-package which-key
+  :defer 0
+  :diminish which-key-mode
   :init
   (setq which-key-idle-delay 0.0)
   :config
@@ -90,6 +92,11 @@
 (use-package org
   :init
   (setq org-default-notes-file (concat org-directory "/notes.org")))
+
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 (use-package org-roam
   :after org
@@ -105,12 +112,31 @@
 		 (direction . right)
 		 (window-width . 0.33)
 		 (window-height .fit-window-to-buffer)))
+  (setq org-roam-dailies-directory "daily/")
+  (setq org-roam-dailies-capture-templates
+	'(
+	  ("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))
+	  ("t" "default" entry
+           "* foo bar baz test %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))
+	  ))
   :config
   (org-roam-db-autosync-mode))
 
 (use-package helpful)
 
-(use-package hydra)
+(use-package hydra
+  :defer t)
+
+(defhydra hydra-text-scale (:timeout 4)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t))
 
 (use-package projectile
   :config
@@ -143,6 +169,7 @@
   "oc" 'org-roam-capture
   "oa" 'org-agenda
   "os" 'org-store-link
+  "ot" 'org-todo
   "od" '(:ignore t :which-key "dailies")
   "odf" 'org-roam-dailies-find-today
   "odc" 'org-roam-dailies-capture-today
@@ -155,6 +182,7 @@
   ";" 'execute-extended-command
   "\\" 'indent-region
   "v" 'check-parens
+  "s" '(hydra-text-scale/body :which-key "scale-text")
   )
 
 (defun savebuf(begin end length)

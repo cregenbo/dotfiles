@@ -33,6 +33,12 @@
       emacsclient = "TERM=xterm; emacsclient";
       e = "emacsclient";
       ls = "exa --icons";
+      la = "ls -a";
+      lla = "ll -a";
+      lt = "ls --tree";
+      llt = "ll --tree";
+      lat = "la --tree";
+      llat = "lla --tree";
     };
   };
 
@@ -113,6 +119,7 @@
       elm-mode
       rainbow-delimiters
       visual-fill-column
+      org-bullets
     ];
   };
 
@@ -154,4 +161,5 @@
   home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
+  home.file.".config/picom/picom.conf".source = ./picom.conf;
 }
