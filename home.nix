@@ -31,14 +31,10 @@
       man = "batman";
       ssh = "kitty +kitten ssh";
       emacsclient = "TERM=xterm; emacsclient";
-      e = "emacsclient";
-      ls = "exa --icons";
-      la = "ls -a";
-      lla = "ll -a";
+      e = "emacsclient -c";
+      ls = "exa --all --icons --colour-scale";
       lt = "ls --tree";
       llt = "ll --tree";
-      lat = "la --tree";
-      llat = "lla --tree";
     };
   };
 
@@ -67,7 +63,16 @@
     elmPackages.elm
     hcloud
     awscli2
+    pandoc
+    httpie
+    i3lock
   ];
+
+  services.screen-locker = {
+    enable = true;
+    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
+    inactiveInterval = 30;
+  };
 
   programs.zathura.enable = true;
 
@@ -143,14 +148,14 @@
 
   programs.exa.enable = true;
 
-  # programs.kitty = {
-  #   enable = true;
-  #   settings = {
-  #     enable_audio_bell = false;
-  #     font_size = 13;
-  #     font_family = "Blex Mono Nerd Font Complete";
-  #   };
-  # };
+  programs.kitty = {
+    enable = true;
+    settings = {
+      enable_audio_bell = false;
+      font_size = 13;
+      font_family = "JetBrainsMono Nerd Font";
+    };
+  };
 
   home.sessionPath = [ 
     "$HOME/local/jetbrains"
@@ -161,7 +166,7 @@
   home.file.".emacs.d/init.el".source = ./init.el;
   home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
-  home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
+  # home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
   home.file.".config/picom/picom.conf".source = ./picom.conf;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
 }

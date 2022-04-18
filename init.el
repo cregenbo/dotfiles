@@ -9,12 +9,17 @@
 (tooltip-mode -1)
 (menu-bar-mode -1)
 
+
 (setq visible-bell t)
+
+(auto-save-mode -1)
+;; (setq auto-save-visited-interval 1)
+;; (auto-save-visited-mode)
 
 ;; (column-number-mode)
 ;; (global-display-line-numbers-mode t)
 
-(set-face-attribute 'default nil :height 130)
+(set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130)
 
 (use-package no-littering)
 
@@ -89,9 +94,16 @@
 
 (use-package avy)
 
+(defun dotfiles/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
 (use-package org
+  :hook (org-mode . dotfiles/org-mode-setup)
   :init
-  (setq org-default-notes-file (concat org-directory "/notes.org")))
+  ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
+  )
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -170,6 +182,7 @@
   "oa" 'org-agenda
   "os" 'org-store-link
   "ot" 'org-todo
+  "of" 'org-roam-node-find
   "od" '(:ignore t :which-key "dailies")
   "odf" 'org-roam-dailies-find-today
   "odc" 'org-roam-dailies-capture-today
@@ -191,14 +204,11 @@
 (add-hook 'after-change-functions 'savebuf)
 
 (use-package pulsar
-  :init
-  (setq pulsar-pulse-functions
-	'(evil-previous-line evil-next-line))
   :config
   (pulsar-global-mode 1))
 
 (defun dotfiles/org-mode-visual-fill ()
-  (setq visual-fill-column-width 100
+  (setq visual-fill-column-width 120
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
