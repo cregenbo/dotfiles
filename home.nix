@@ -126,6 +126,16 @@
       visual-fill-column
       org-bullets
       elfeed
+      diminish
+      (trivialBuild rec {
+        pname = "org-fc";
+        src = builtins.fetchGit {
+            url = "https://github.com/l3kn/org-fc.git";
+            ref = "main";
+            rev = "f64b5336485a42be91cfe77850c02a41575f5984";
+        };
+        packageRequires = [ hydra ];
+      })
     ];
   };
 

@@ -9,7 +9,6 @@
 (tooltip-mode -1)
 (menu-bar-mode -1)
 
-
 (setq visible-bell t)
 
 (auto-save-mode -1)
@@ -143,6 +142,9 @@
 
 (use-package hydra
   :defer t)
+
+(use-package org-fc
+  :after org hydra)
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
