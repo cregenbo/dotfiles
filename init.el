@@ -1,3 +1,4 @@
+
 (require 'package)
 (setq package-archives nil)
 (package-initialize)
@@ -8,6 +9,7 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
+(set-fringe-mode 10)
 
 (setq visible-bell t)
 
@@ -19,6 +21,8 @@
 ;; (global-display-line-numbers-mode t)
 
 (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130)
+(set-face-attribute 'fixed-pitch nil :family "JetBrainsMono Nerd Font" :height 130)
+(set-face-attribute 'variable-pitch nil :family "Ubuntu Nerd Font" :height 140)
 
 (use-package no-littering)
 
@@ -82,6 +86,8 @@
   (setq corfu-auto t)
   :config
   (corfu-global-mode))
+
+(use-package diminish)
 
 (use-package which-key
   :defer 0

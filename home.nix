@@ -8,6 +8,7 @@
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
+
   # when a new Home Manager release introduces backwards
   # incompatible changes.
   #
@@ -19,6 +20,18 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  home.shellAliases = {
+    g = "git";
+    man = "batman";
+    kitty = "nixGL kitty";
+    ssh = "kitty +kitten ssh";
+    emacsclient = "TERM=xterm; emacsclient";
+    e = "emacsclient -c";
+    ls = "exa --all --icons --colour-scale";
+    lt = "ls --tree";
+    llt = "ll --tree";
+  };
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -27,15 +40,6 @@
     history.path = "${config.xdg.dataHome}/zsh/history";
     oh-my-zsh.enable = true;
     oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
-    shellAliases = {
-      man = "batman";
-      ssh = "kitty +kitten ssh";
-      emacsclient = "TERM=xterm; emacsclient";
-      e = "emacsclient -c";
-      ls = "exa --all --icons --colour-scale";
-      lt = "ls --tree";
-      llt = "ll --tree";
-    };
   };
 
   fonts.fontconfig.enable = true;
@@ -66,7 +70,21 @@
     pandoc
     httpie
     i3lock
+    brave
+    jetbrains.idea-ultimate
+    jetbrains.webstorm
+    jetbrains.phpstorm
+    jetbrains.datagrip
   ];
+
+  xsession = {
+    enable = true;
+    windowManager.xmonad = {
+      enable = true;
+      enableContribAndExtras = true;
+      config = ./xmonad.hs;
+    };
+  };
 
   services.screen-locker = {
     enable = true;
@@ -167,14 +185,14 @@
     };
   };
 
-  home.sessionPath = [ 
-    "$HOME/local/jetbrains"
-  ];
+  # home.sessionPath = [ 
+  #   "$HOME/local/jetbrains"
+  # ];
   home.sessionVariables = {
     QT_XCB_GL_INTEGRATION = "none"; # Disable QT GLX, otherwise Anki won't start
   };
   home.file.".emacs.d/init.el".source = ./init.el;
-  home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
+  # home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   # home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
   home.file.".config/picom/picom.conf".source = ./picom.conf;

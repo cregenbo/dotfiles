@@ -31,7 +31,7 @@ toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b)
 
 myConfig = ewmh $ def
   { modMask     = mod4Mask
-  , terminal    = "kitty"
+  , terminal    = "nixGL kitty"
   , layoutHook  = myLayout
   , startupHook = myStartup
   } `additionalKeysP` myKeyBindings
