@@ -46,10 +46,18 @@
 
   programs.fzf.enable = true;
 
-  qt.enable = true;
-  gtk.enable = true;
+  qt = {
+    enable = true;
+    style.package = pkgs.adwaita-qt;
+    style.name = "adwaita-dark";
+  };
+  gtk = {
+    enable = true;
+    theme.name = "adwaita-dark";
+  };
   
   home.packages = with pkgs; [
+    scrot
     qutebrowser
     dmenu
     anki-bin
@@ -67,7 +75,6 @@
     elmPackages.elm
     hcloud
     awscli2
-    pandoc
     httpie
     i3lock
     brave
@@ -75,6 +82,8 @@
     jetbrains.webstorm
     jetbrains.phpstorm
     jetbrains.datagrip
+    pandoc
+    texlive.combined.scheme-small # Needed for pandoc pdftex support
   ];
 
   xsession = {
@@ -112,20 +121,23 @@
     extraPackages = epkgs: with epkgs; [
       magit
       avy
-      pulsar
       helpful
+
       evil
       evil-collection
       evil-surround
       evil-nerd-commenter
+
       use-package
+
       all-the-icons
       modus-themes
       doom-modeline
-      nix-mode
-      org-roam
-      anki-editor
-      general
+      pulsar
+      visual-fill-column
+      rainbow-delimiters
+      diminish
+
       corfu
       vertico
       marginalia
@@ -133,18 +145,27 @@
       embark
       orderless
       which-key
+
       no-littering
+
       projectile
+
+      general
       hydra
+
+      yasnippet
+
       lsp-mode
       lsp-ui
-      yasnippet
       elm-mode
-      rainbow-delimiters
-      visual-fill-column
-      org-bullets
+      nix-mode
+
       elfeed
-      diminish
+
+      org-roam
+      org-download
+      org-bullets
+      anki-editor
       (trivialBuild rec {
         pname = "org-fc";
         src = builtins.fetchGit {
@@ -153,6 +174,8 @@
             rev = "f64b5336485a42be91cfe77850c02a41575f5984";
         };
         packageRequires = [ hydra ];
+        propagatedUserEnvPkgs = [ pkgs.findutils pkgs.gawk ];
+        postInstall = "cp -r ./awk/ $LISPDIR/";
       })
     ];
   };

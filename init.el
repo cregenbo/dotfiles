@@ -20,6 +20,7 @@
 ;; (column-number-mode)
 ;; (global-display-line-numbers-mode t)
 
+
 (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'variable-pitch nil :family "Ubuntu Nerd Font" :height 140)
@@ -150,7 +151,23 @@
   :defer t)
 
 (use-package org-fc
-  :after org hydra)
+  :custom (org-fc-directories '("~/org"))
+  :config
+  (require 'org-fc-hydra)
+  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
+    (kbd "RET") 'org-fc-review-flip
+    (kbd "n") 'org-fc-review-flip
+    (kbd "s") 'org-fc-review-suspend-card
+    (kbd "q") 'org-fc-review-quit)
+
+  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-rate-mode
+    (kbd "a") 'org-fc-review-rate-again
+    (kbd "h") 'org-fc-review-rate-hard
+    (kbd "g") 'org-fc-review-rate-good
+    (kbd "e") 'org-fc-review-rate-easy
+    (kbd "s") 'org-fc-review-suspend-card
+    (kbd "q") 'org-fc-review-quit)
+  )
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
