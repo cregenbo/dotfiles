@@ -32,6 +32,7 @@
   (setq evil-want-integration t)
   (setq evil-want-C-u-scroll t)
   (setq evil-want-keybinding nil)
+  (setq evil-undo-system 'undo-redo)
   :config
   (evil-mode 1))
 
