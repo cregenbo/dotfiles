@@ -84,6 +84,8 @@
     jetbrains.datagrip
     pandoc
     texlive.combined.scheme-small # Needed for pandoc pdftex support
+    variety
+    feh
   ];
 
   xsession = {
