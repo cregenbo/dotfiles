@@ -19,7 +19,6 @@ myLayout = smartBorders $ spacingRaw True (Border 0 0 0 0) False (Border 7 7 7 7
 myStartup:: X ()
 myStartup = do
   spawnOnce "~/dotfiles/feh-slideshow.sh"
-  spawnOnce "picom --config ~/.config/picom/picom.conf"
   setWMName "LG3D"
 
 main :: IO ()
@@ -31,7 +30,7 @@ toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b)
 
 myConfig = ewmh $ def
   { modMask     = mod4Mask
-  , terminal    = "nixGL kitty"
+  , terminal    = "kitty"
   , layoutHook  = myLayout
   , startupHook = myStartup
   } `additionalKeysP` myKeyBindings

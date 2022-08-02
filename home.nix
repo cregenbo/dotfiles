@@ -1,6 +1,8 @@
 { config, pkgs, stdenv, ... }:
 
 {
+  imports = [ ./modules/gtk.nix ];
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "chris";
@@ -23,14 +25,17 @@
   home.shellAliases = {
     g = "git";
     man = "batman";
-    kitty = "nixGL kitty";
     ssh = "kitty +kitten ssh";
     emacsclient = "TERM=xterm; emacsclient";
     e = "emacsclient -c";
     ls = "exa --all --icons --colour-scale";
     lt = "ls --tree";
     llt = "ll --tree";
+    ncdu = "ncdu --color dark";
   };
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
 
   programs.zsh = {
     enable = true;
@@ -42,39 +47,81 @@
     oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
   };
 
-  fonts.fontconfig.enable = true;
-
-  programs.fzf.enable = true;
-
   qt.enable = true;
-  gtk.enable = true;
   
   home.packages = with pkgs; [
-    qutebrowser
-    dmenu
-    anki-bin
-    nerdfonts
-    htop
-    btop
-    bat
-    bat-extras.batman
-    ripgrep
-    fd
     zsh-you-should-use
     graphviz
     xdot
     sshfs
-    elmPackages.elm
-    hcloud
-    awscli2
     pandoc
     httpie
-    i3lock
-    brave
-    jetbrains.idea-ultimate
-    jetbrains.webstorm
     jetbrains.phpstorm
+
+    # Fonts
+    nerdfonts
+    fontpreview
+
+    # Desktop Apps
+    anki-bin
+    megasync
+    mpv
+    pavucontrol
+    pcmanfm
+    gnome.gnome-terminal
+    libsForQt5.konsole
+    glxinfo
+    go-sct
+
+    # Window Manager
+    i3lock
+    dmenu
+    haskellPackages.xmobar
+    feh
+
+    # Wallpaper manager
+    variety
+
+    # Gaming
+    wine64
+    lutris
+    steam
+
+    # Browser
+    qutebrowser
+    brave
+    
+    # Database
     jetbrains.datagrip
+
+    # Java
+    jetbrains.idea-ultimate
+    jdk
+
+    # Haskell
+    ghc
+
+    # Rust
+    rustc
+    cargo
+    rust-analyzer
+    rustfmt
+    clippy
+    gcc # Rust needs cc linker
+    binutils # Cargo needs ar
+    webkitgtk
+    pkg-config
+    dbus
+
+    # Web dev
+    jetbrains.webstorm
+    elmPackages.elm
+    nodejs
+
+    # Cloud
+    hcloud
+    awscli2
+    terraform
   ];
 
   xsession = {
@@ -96,19 +143,11 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay.git";
-      ref = "master";
-      rev = "46353b3bce539bd99eace5584f804320661ec18a";
-    }))
-  ];
-
   services.emacs.enable = true;
   services.emacs.defaultEditor = true;
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsGcc;
+    package = pkgs.emacsNativeComp;
     extraPackages = epkgs: with epkgs; [
       magit
       avy
@@ -145,17 +184,29 @@
       org-bullets
       elfeed
       diminish
-      (trivialBuild rec {
-        pname = "org-fc";
-        src = builtins.fetchGit {
-            url = "https://github.com/l3kn/org-fc.git";
-            ref = "main";
-            rev = "f64b5336485a42be91cfe77850c02a41575f5984";
-        };
-        packageRequires = [ hydra ];
-      })
+      super-save
+
+      rustic
     ];
   };
+
+  # services.polybar.enable = true;
+  # services.polybar.script = "polybar top &";
+  # services.polybar.settings = {
+  #   "bar/top" = {
+  #     modules-right = "date";
+  #     width = "100%";
+  #     tray-position = "right";
+  #     font-0 = "JetBrainsMono Nerd Font:size=20";
+  #   };
+
+  #   "module/date" = {
+  #     type = "internal/date";
+  #     date = "%d.%m.%y";
+  #     time = "%H:%M";
+  #   };
+  # };
+
 
   programs.neovim = {
     enable = true;
@@ -180,21 +231,17 @@
     enable = true;
     settings = {
       enable_audio_bell = false;
-      font_size = 13;
+      font_size = 20;
       font_family = "JetBrainsMono Nerd Font";
     };
   };
 
-  # home.sessionPath = [ 
-  #   "$HOME/local/jetbrains"
-  # ];
-  home.sessionVariables = {
-    QT_XCB_GL_INTEGRATION = "none"; # Disable QT GLX, otherwise Anki won't start
-  };
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+  ];
+
   home.file.".emacs.d/init.el".source = ./init.el;
-  # home.file.".xmonad/xmonad.hs".source = ./xmonad.hs;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
-  # home.file.".config/kitty/kitty.conf".source = ./kitty.conf;
   home.file.".config/picom/picom.conf".source = ./picom.conf;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
 }

@@ -14,8 +14,8 @@
 (setq visible-bell t)
 
 (auto-save-mode -1)
-;; (setq auto-save-visited-interval 1)
 ;; (auto-save-visited-mode)
+;; (setq auto-save-visited-interval 1)
 
 ;; (column-number-mode)
 ;; (global-display-line-numbers-mode t)
@@ -23,6 +23,12 @@
 (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'variable-pitch nil :family "Ubuntu Nerd Font" :height 140)
+
+(use-package super-save
+  :init
+  (setq super-save-auto-save-when-idle t)
+  :config
+  (super-save-mode +1))
 
 (use-package no-littering)
 
@@ -206,10 +212,10 @@
   "s" '(hydra-text-scale/body :which-key "scale-text")
   )
 
-(defun savebuf(begin end length)
-  (if (and (buffer-file-name) (buffer-modified-p))
-       (save-buffer)))
-(add-hook 'after-change-functions 'savebuf)
+;; (defun savebuf(begin end length)
+;;   (if (and (buffer-file-name) (buffer-modified-p))
+;;        (save-buffer)))
+;; (add-hook 'after-change-functions 'savebuf)
 
 (use-package pulsar
   :config
