@@ -17,7 +17,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "22.05";
+  home.stateVersion = import ./state-version.nix;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -46,6 +46,8 @@
     oh-my-zsh.enable = true;
     oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
   };
+
+  programs.fzf.enable = true;
 
   qt.enable = true;
   
@@ -98,9 +100,6 @@
     jetbrains.idea-ultimate
     jdk
 
-    # Haskell
-    ghc
-
     # Rust
     rustc
     cargo
@@ -115,7 +114,7 @@
 
     # Web dev
     jetbrains.webstorm
-    elmPackages.elm
+    # elmPackages.elm
     nodejs
 
     # Cloud

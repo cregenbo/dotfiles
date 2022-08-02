@@ -7,11 +7,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@attrs: {
-    nixosConfigurations.desktop-home = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = attrs;
-      modules = [ ./configuration.nix ];
+  outputs = { self, nixpkgs, home-manager, ... }@attrs:
+    let
+      stateVersion = "22.05";
+    in {
+      nixosConfigurations.desktop-home = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = attrs // { inherit stateVersion; };
+        modules = [ ./configuration.nix ];
+      };
     };
-  };
 }
