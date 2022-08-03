@@ -4,6 +4,7 @@
   imports = [
     ./modules/gtk.nix
     ./modules/gaming.nix
+    ./modules/emacs.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -29,8 +30,8 @@
     g = "git";
     man = "batman";
     ssh = "kitty +kitten ssh";
-    emacsclient = "TERM=xterm; emacsclient";
-    e = "emacsclient -c";
+    # emacsclient = "TERM=xterm; emacsclient";
+    # e = "emacsclient -c";
     ls = "exa --all --icons --colour-scale";
     lt = "ls --tree";
     llt = "ll --tree";
@@ -145,52 +146,52 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  services.emacs.enable = true;
-  services.emacs.defaultEditor = true;
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacsNativeComp;
-    extraPackages = epkgs: with epkgs; [
-      magit
-      avy
-      pulsar
-      helpful
-      evil
-      evil-collection
-      evil-surround
-      evil-nerd-commenter
-      use-package
-      all-the-icons
-      modus-themes
-      doom-modeline
-      nix-mode
-      org-roam
-      anki-editor
-      general
-      corfu
-      vertico
-      marginalia
-      consult
-      embark
-      orderless
-      which-key
-      no-littering
-      projectile
-      hydra
-      lsp-mode
-      lsp-ui
-      yasnippet
-      elm-mode
-      rainbow-delimiters
-      visual-fill-column
-      org-bullets
-      elfeed
-      diminish
-      super-save
+  # services.emacs.enable = true;
+  # services.emacs.defaultEditor = true;
+  # programs.emacs = {
+  #   enable = true;
+  #   package = pkgs.emacsNativeComp;
+  #   extraPackages = epkgs: with epkgs; [
+  #     magit
+  #     avy
+  #     pulsar
+  #     helpful
+  #     evil
+  #     evil-collection
+  #     evil-surround
+  #     evil-nerd-commenter
+  #     use-package
+  #     all-the-icons
+  #     modus-themes
+  #     doom-modeline
+  #     nix-mode
+  #     org-roam
+  #     anki-editor
+  #     general
+  #     corfu
+  #     vertico
+  #     marginalia
+  #     consult
+  #     embark
+  #     orderless
+  #     which-key
+  #     no-littering
+  #     projectile
+  #     hydra
+  #     lsp-mode
+  #     lsp-ui
+  #     yasnippet
+  #     elm-mode
+  #     rainbow-delimiters
+  #     visual-fill-column
+  #     org-bullets
+  #     elfeed
+  #     diminish
+  #     super-save
 
-      rustic
-    ];
-  };
+  #     rustic
+  #   ];
+  # };
 
   # services.polybar.enable = true;
   # services.polybar.script = "polybar top &";
@@ -242,7 +243,7 @@
     "$HOME/.cargo/bin"
   ];
 
-  home.file.".emacs.d/init.el".source = ./init.el;
+  # home.file.".emacs.d/init.el".source = ./init.el;
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/picom/picom.conf".source = ./picom.conf;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
