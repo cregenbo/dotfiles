@@ -42,9 +42,12 @@
     package = pkgs.nixFlakes;
     extraOptions = '' 
       experimental-features = nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    ''; # keep-outputs and keep-derivations settings are needed by nix-direnv
+    '';
+    # extraOptions = '' 
+    #   experimental-features = nix-command flakes
+    #   keep-outputs = true
+    #   keep-derivations = true
+    # ''; # keep-outputs and keep-derivations settings are needed by nix-direnv
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -67,7 +70,7 @@
 
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
-  services.picom.enable = true;
+  # services.picom.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";

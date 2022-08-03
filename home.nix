@@ -30,8 +30,6 @@
     g = "git";
     man = "batman";
     ssh = "kitty +kitten ssh";
-    # emacsclient = "TERM=xterm; emacsclient";
-    # e = "emacsclient -c";
     ls = "exa --all --icons --colour-scale";
     lt = "ls --tree";
     llt = "ll --tree";
@@ -88,11 +86,6 @@
     # Wallpaper manager
     variety
 
-    # Gaming
-    # wine64
-    # lutris
-    # steam
-
     # Browser
     qutebrowser
     brave
@@ -118,8 +111,6 @@
 
     # Web dev
     jetbrains.webstorm
-    # elmPackages.elm
-    nodejs
 
     # Cloud
     hcloud
@@ -145,53 +136,6 @@
   programs.zathura.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-
-  # services.emacs.enable = true;
-  # services.emacs.defaultEditor = true;
-  # programs.emacs = {
-  #   enable = true;
-  #   package = pkgs.emacsNativeComp;
-  #   extraPackages = epkgs: with epkgs; [
-  #     magit
-  #     avy
-  #     pulsar
-  #     helpful
-  #     evil
-  #     evil-collection
-  #     evil-surround
-  #     evil-nerd-commenter
-  #     use-package
-  #     all-the-icons
-  #     modus-themes
-  #     doom-modeline
-  #     nix-mode
-  #     org-roam
-  #     anki-editor
-  #     general
-  #     corfu
-  #     vertico
-  #     marginalia
-  #     consult
-  #     embark
-  #     orderless
-  #     which-key
-  #     no-littering
-  #     projectile
-  #     hydra
-  #     lsp-mode
-  #     lsp-ui
-  #     yasnippet
-  #     elm-mode
-  #     rainbow-delimiters
-  #     visual-fill-column
-  #     org-bullets
-  #     elfeed
-  #     diminish
-  #     super-save
-
-  #     rustic
-  #   ];
-  # };
 
   # services.polybar.enable = true;
   # services.polybar.script = "polybar top &";
@@ -237,14 +181,24 @@
       font_size = 20;
       font_family = "JetBrainsMono Nerd Font";
     };
+    theme = "Space Gray Eighties";
   };
 
   home.sessionPath = [
     "$HOME/.cargo/bin"
   ];
 
-  # home.file.".emacs.d/init.el".source = ./init.el;
+  services.picom = {
+    enable = true;
+    fade = true;
+    backend = "glx";
+    inactiveOpacity = "0.8";
+    inactiveDim = "0.1";
+    blur = true;
+    shadow = true;
+    vSync = true;
+  };
+
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
-  home.file.".config/picom/picom.conf".source = ./picom.conf;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
 }
