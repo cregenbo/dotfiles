@@ -7,7 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      home-manager.nixosModule
+      # home-manager.nixosModule
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -76,7 +76,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  home-manager.users.chris = import ./home.nix;
+  # home-manager.users.chris = import ./home.nix;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {

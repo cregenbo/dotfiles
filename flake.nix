@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "System configurations flake";
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
@@ -14,7 +14,15 @@
       nixosConfigurations.desktop-home = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = attrs // { inherit stateVersion; };
-        modules = [ ./configuration.nix ];
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit stateVersion; };
+            home-manager.users.chris = import ./home.nix;
+          }
+        ];
       };
     };
 }

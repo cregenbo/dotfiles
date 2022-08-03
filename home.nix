@@ -1,7 +1,10 @@
-{ config, pkgs, stdenv, ... }:
+{ config, pkgs, stdenv, stateVersion, ... }:
 
 {
-  imports = [ ./modules/gtk.nix ];
+  imports = [
+    ./modules/gtk.nix
+    ./modules/gaming.nix
+  ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -17,7 +20,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = import ./state-version.nix;
+  home.stateVersion = stateVersion;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -85,9 +88,9 @@
     variety
 
     # Gaming
-    wine64
-    lutris
-    steam
+    # wine64
+    # lutris
+    # steam
 
     # Browser
     qutebrowser
