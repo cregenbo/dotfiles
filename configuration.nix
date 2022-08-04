@@ -40,14 +40,17 @@
 
   nix = {
     package = pkgs.nixFlakes;
-    extraOptions = '' 
-      experimental-features = nix-command flakes
-    '';
-    # extraOptions = '' 
-    #   experimental-features = nix-command flakes
-    #   keep-outputs = true
-    #   keep-derivations = true
-    # ''; # keep-outputs and keep-derivations settings are needed by nix-direnv
+    settings = {
+      # Deduplicate files in Nix store
+      auto-optimise-store = true;
+
+      # keep-outputs and keep-derivations settings are needed by nix-direnv
+      keep-outputs = true;
+      keep-derivations = true;
+
+      # Enable flake support
+      experimental-features = "nix-command flakes";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -84,9 +87,11 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker"];
+    extraGroups = [ "wheel" "docker" "wireshark"];
     shell = pkgs.fish;
   };
+
+  programs.wireshark.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
 

@@ -74,6 +74,7 @@
     sshfs
     pandoc
     httpie
+    wireshark
     jetbrains.phpstorm
     neofetch
 
@@ -142,7 +143,10 @@
     };
   };
 
-  services.betterlockscreen.enable = true;
+  services.betterlockscreen = {
+    enable = true;
+    inactiveInterval = 60;
+  };
 
   programs.zathura.enable = true;
 
@@ -165,6 +169,7 @@
   #   };
   # };
 
+  programs.helix.enable = true;
 
   programs.neovim = {
     enable = true;

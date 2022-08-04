@@ -2,6 +2,8 @@
 (require 'package)
 (setq package-archives nil)
 (package-initialize)
+
+
 (require 'use-package)
 
 (setq standard-indent 2)
@@ -27,6 +29,7 @@
 (use-package super-save
   :init
   (setq super-save-auto-save-when-idle t)
+  (setq super-save-idle-duration 1)
   :config
   (super-save-mode +1))
 
@@ -109,8 +112,21 @@
   :config
   (envrc-global-mode))
 
+(use-package elm-mode
+  :config
+  (setq elm-sort-imports-on-save t)
+  (setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred)))
+
 (use-package lsp-mod
-  :commands lsp)
+  :custom
+  (lsp-completion-provider :none) ;; we use Corfu!
+  :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless))) ;; Configure orderless
+  :hook
+  ((lsp-completion-mode . my/lsp-mode-setup-completion))
+  :commands (lsp lsp-deferred))
 
 (use-package lsp-ui
   :commands lsp-ui-mode)
@@ -190,13 +206,19 @@
   "bk" 'kill-buffer
   "bs" 'save-buffer
   "p" '(:ignore t :which-key "project")
-  "pf" projectile-find-file
+  "pf" 'projectile-find-file
+  "pp" 'projectile-switch-project
+  "pg" 'projectile-ripgrep
   "w" '(:ignore t :which-key "window")
   "wo" 'delete-other-windows
+  "wd" 'evil-window-delete
   "wl" 'evil-window-right
   "wh" 'evil-window-left
   "wk" 'evil-window-up
   "wj" 'evil-window-down
+  "ws" '(:ignore t :which-key "split")
+  "wss" 'evil-window-vsplit
+  "wsh" 'evil-window-split
   "h" '(:ignore t :which-key "help")
   "hf" 'describe-function
   "hk" 'helpful-key
@@ -215,6 +237,8 @@
   "j" '(:ignore t :which-key "jump")
   "jj" '((lambda () (interactive) (evil-avy-goto-char)) :which-key "evil-avy-goto-char")
   "jg" 'consult-ripgrep
+  "g" '(:ignore t :which-key "git")
+  "gg" 'magit
   "c" 'evilnc-comment-or-uncomment-lines
   "f" 'find-file
   "e" 'eval-buffer
@@ -223,11 +247,6 @@
   "v" 'check-parens
   "s" '(hydra-text-scale/body :which-key "scale-text")
   )
-
-;; (defun savebuf(begin end length)
-;;   (if (and (buffer-file-name) (buffer-modified-p))
-;;        (save-buffer)))
-;; (add-hook 'after-change-functions 'savebuf)
 
 (use-package pulsar
   :config
