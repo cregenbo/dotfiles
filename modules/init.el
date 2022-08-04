@@ -89,9 +89,9 @@
 
 (use-package corfu
   :init
-  (setq corfu-auto t)
+  (global-corfu-mode)
   :config
-  (corfu-global-mode))
+  (setq corfu-auto t))
 
 (use-package diminish)
 
@@ -104,6 +104,16 @@
   (which-key-mode))
 
 (use-package avy)
+
+(use-package envrc
+  :config
+  (envrc-global-mode))
+
+(use-package lsp-mod
+  :commands lsp)
+
+(use-package lsp-ui
+  :commands lsp-ui-mode)
 
 (defun dotfiles/org-mode-setup ()
   (org-indent-mode)
@@ -179,6 +189,8 @@
   "bn" 'next-buffer
   "bk" 'kill-buffer
   "bs" 'save-buffer
+  "p" '(:ignore t :which-key "project")
+  "pf" projectile-find-file
   "w" '(:ignore t :which-key "window")
   "wo" 'delete-other-windows
   "wl" 'evil-window-right

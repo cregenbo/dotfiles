@@ -49,6 +49,20 @@
     oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
   };
 
+  programs.fish = {
+    enable = true;
+    functions = {
+      fish_greeting.body = "";
+    };
+    interactiveShellInit = ''
+      fish_vi_key_bindings
+    '';
+    plugins = [
+      { name = "pisces"; src = pkgs.fishPlugins.pisces.src; }
+      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; }
+    ];
+  };
+
   programs.fzf.enable = true;
 
   qt.enable = true;
@@ -61,6 +75,7 @@
     pandoc
     httpie
     jetbrains.phpstorm
+    neofetch
 
     # Fonts
     nerdfonts
@@ -78,7 +93,6 @@
     go-sct
 
     # Window Manager
-    i3lock
     dmenu
     haskellPackages.xmobar
     feh
@@ -116,6 +130,7 @@
     hcloud
     awscli2
     terraform
+
   ];
 
   xsession = {
@@ -127,11 +142,7 @@
     };
   };
 
-  services.screen-locker = {
-    enable = true;
-    lockCmd = "${pkgs.i3lock}/bin/i3lock -n -c 000000";
-    inactiveInterval = 30;
-  };
+  services.betterlockscreen.enable = true;
 
   programs.zathura.enable = true;
 
@@ -178,7 +189,7 @@
     enable = true;
     settings = {
       enable_audio_bell = false;
-      font_size = 20;
+      font_size = 22;
       font_family = "JetBrainsMono Nerd Font";
     };
     theme = "Space Gray Eighties";
@@ -197,6 +208,7 @@
     blur = true;
     shadow = true;
     vSync = true;
+    opacityRule = [ "100:class_g = 'i3lock'"];
   };
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;

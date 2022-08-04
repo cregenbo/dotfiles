@@ -85,7 +85,7 @@
   users.users.chris = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker"];
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   security.sudo.wheelNeedsPassword = false;

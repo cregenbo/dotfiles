@@ -7,50 +7,61 @@
     enable = true;
     package = pkgs.emacsNativeComp;
     extraPackages = epkgs: with epkgs; [
-      magit
-      avy
-      pulsar
+      # Miscellaneous
+      elfeed
+
+      # Core
+      no-littering
+      super-save
       helpful
-      evil
-      evil-collection
-      evil-surround
-      evil-nerd-commenter
+      orderless
+      avy
       use-package
-      all-the-icons
-      modus-themes
-      doom-modeline
-      nix-mode
-      org-roam
-      anki-editor
-      general
       corfu
       vertico
       marginalia
       consult
       embark
-      orderless
       which-key
-      no-littering
-      projectile
+
+      # Keybindings
+      general
+      evil
+      evil-collection
+      evil-surround
+      evil-nerd-commenter
       hydra
+
+      # Org
+      org-roam
+      org-bullets
+      anki-editor
+
+      # Eye Candy
+      visual-fill-column
+      pulsar
+      modus-themes
+      diminish
+      doom-modeline
+      all-the-icons
+      rainbow-delimiters
+
+      # Dev
+      yasnippet
+      magit
+      projectile
       lsp-mode
       lsp-ui
-      yasnippet
+      envrc
       elm-mode
-      rainbow-delimiters
-      visual-fill-column
-      org-bullets
-      elfeed
-      diminish
-      super-save
-
+      nix-mode
       rustic
     ];
   };
 
   home.file.".emacs.d/init.el".source = ./init.el;
   home.shellAliases = {
-    emacsclient = "TERM=xterm; emacsclient";
+    # emacsclient = "TERM=xterm; emacsclient";
     e = "emacsclient -c";
   };
 }

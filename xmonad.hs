@@ -22,7 +22,7 @@ myStartup = do
   setWMName "LG3D"
 
 main :: IO ()
-main = xmonad =<<  myXmobar myConfig
+main = xmonad =<< myXmobar myConfig
 
 myXmobar = statusBar "xmobar ~/.xmonad/xmobar.hs" myXmobarPP toggleStrutsKey
 myXmobarPP = xmobarPP {ppTitle   = xmobarColor "green"  "" . shorten 120}
@@ -40,18 +40,6 @@ myKeyBindings =
   [ ("M-w", gotoMenu)
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
+  , ("M-S-l", spawn "betterlockscreen -l")
   , ("M-S-s", spawn "systemctl suspend")
   ]
-
-configFiles :: M.Map String String
-configFiles = M.fromList
-  [ ("xmonad", ".xmonad/xmonad.hs")
-  , ("zsh", ".zshrc")
-  , ("kitty", ".config/kitty/kitty.conf")
-  , ("picom", ".config/picom/picom.conf")
-  ]
-
-configFilesDmenu :: X ()
-configFilesDmenu =  do
-  selection <- dmenuMap configFiles
-  whenJust selection (\s -> spawn ("emacsclient -c ~/" ++ s))
