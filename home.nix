@@ -68,6 +68,8 @@
   qt.enable = true;
   
   home.packages = with pkgs; [
+    nyxt
+    glances
     zsh-you-should-use
     graphviz
     xdot
@@ -77,6 +79,9 @@
     wireshark
     jetbrains.phpstorm
     neofetch
+    imagemagick
+    mediainfo
+    ffmpegthumbnailer
 
     # Fonts
     nerdfonts
@@ -208,12 +213,12 @@
     enable = true;
     fade = true;
     backend = "glx";
-    inactiveOpacity = "0.8";
-    inactiveDim = "0.1";
-    blur = true;
+    inactiveOpacity = 0.8;
+    settings.inactiveDim = 0.1;
+    settings.blur = true;
     shadow = true;
     vSync = true;
-    opacityRule = [ "100:class_g = 'i3lock'"];
+    opacityRules = [ "100:class_g = 'i3lock'"];
   };
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;

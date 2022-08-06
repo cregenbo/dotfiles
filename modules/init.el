@@ -131,6 +131,14 @@
 (use-package lsp-ui
   :commands lsp-ui-mode)
 
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
+
+(use-package dirvish
+  :config
+  (dirvish-override-dired-mode))
+
 (defun dotfiles/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)

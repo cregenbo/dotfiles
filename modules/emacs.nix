@@ -9,6 +9,10 @@
     extraPackages = epkgs: with epkgs; [
       # Miscellaneous
       elfeed
+      pdf-tools
+      dirvish
+      json-mode
+      yaml-mode
 
       # Core
       no-littering
