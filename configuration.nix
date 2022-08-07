@@ -7,7 +7,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # home-manager.nixosModule
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -78,7 +77,6 @@
 
   hardware.opengl.enable = true;
   hardware.opengl.driSupport32Bit = true;
-  # services.picom.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -87,12 +85,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # home-manager.users.chris = import ./home.nix;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "wireshark"];
+    extraGroups = [ "wheel" "docker" "libvirtd" "lxd" "wireshark"];
     shell = pkgs.fish;
   };
 
@@ -102,9 +98,10 @@
 
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.lxd.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+
   environment.systemPackages = with pkgs; [
     neovim
     tldr
@@ -152,6 +149,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # tailscale wanted this setting
   networking.firewall.checkReversePath = "loose";
 
   # This value determines the NixOS release from which the default

@@ -82,6 +82,7 @@
     imagemagick
     mediainfo
     ffmpegthumbnailer
+    virt-manager
 
     # Fonts
     nerdfonts
