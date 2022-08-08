@@ -13,6 +13,7 @@
       dirvish
       json-mode
       yaml-mode
+      dashboard
 
       # Core
       no-littering

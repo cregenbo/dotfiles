@@ -4,6 +4,7 @@
 (package-initialize)
 
 
+
 (require 'use-package)
 
 (setq standard-indent 2)
@@ -34,6 +35,17 @@
   (super-save-mode +1))
 
 (use-package no-littering)
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t)
+  (setq dashboard-set-heading-icons t) 
+  (setq dashboard-set-file-icons t) 
+  (setq dashboard-set-navigator t)
+  (setq dashboard-items '((recents . 5) (projects . 5) (agenda . 5))))
 
 (use-package evil
   :init

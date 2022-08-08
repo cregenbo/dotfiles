@@ -65,6 +65,10 @@
     Option "TearFree" "true"
   '';
   services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.autoLogin = {
+    enable = true;
+    user = "chris";
+  };
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
 

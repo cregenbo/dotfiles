@@ -66,6 +66,9 @@
   programs.fzf.enable = true;
 
   qt.enable = true;
+
+  programs.gpg.enable = true;
+  services.gpg-agent.enable = true;
   
   home.packages = with pkgs; [
     nyxt
@@ -146,6 +149,15 @@
       enable = true;
       enableContribAndExtras = true;
       config = ./xmonad.hs;
+    };
+  };
+
+
+  xdg = {
+    mimeApps.enable = true;
+    userDirs = {
+      enable = true;
+      createDirectories = true;
     };
   };
 
