@@ -87,6 +87,7 @@
     ffmpegthumbnailer
     virt-manager
     ltex-ls
+    exercism
 
     # Fonts
     nerdfonts

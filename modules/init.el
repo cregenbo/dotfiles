@@ -2,8 +2,6 @@
 (setq package-archives nil)
 (package-initialize)
 
-(require 'use-package)
-
 (setq standard-indent 2)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -13,7 +11,13 @@
 
 (setq visible-bell t)
 
+(require 'no-littering)
+
 (auto-save-mode -1)
+(setq super-save-auto-save-when-idle t)
+(setq super-save-idle-duration 1)
+(super-save-mode +1)
+
 ;; (auto-save-visited-mode)
 ;; (setq auto-save-visited-interval 1)
 
@@ -24,200 +28,111 @@
 (set-face-attribute 'fixed-pitch nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'variable-pitch nil :family "Ubuntu Nerd Font" :height 140)
 
-(use-package super-save
-  :init
-  (setq super-save-auto-save-when-idle t)
-  (setq super-save-idle-duration 1)
-  :config
-  (super-save-mode +1))
+(dashboard-setup-startup-hook)
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+(setq dashboard-startup-banner 'logo)
+(setq dashboard-center-content t)
+(setq dashboard-set-heading-icons t) 
+(setq dashboard-set-file-icons t) 
+(setq dashboard-set-navigator t)
+(setq dashboard-items '((recents . 5) (projects . 5) (agenda . 5)))
 
-(use-package no-littering)
+(setq evil-want-integration t)
+(setq evil-want-C-u-scroll t)
+(setq evil-want-keybinding nil)
+(setq evil-undo-system 'undo-redo)
+(evil-mode 1)
+(evil-collection-init)
+(global-evil-surround-mode 1)
 
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  (setq dashboard-startup-banner 'logo)
-  (setq dashboard-center-content t)
-  (setq dashboard-set-heading-icons t) 
-  (setq dashboard-set-file-icons t) 
-  (setq dashboard-set-navigator t)
-  (setq dashboard-items '((recents . 5) (projects . 5) (agenda . 5))))
+(doom-modeline-mode)
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1))
+(modus-themes-load-themes)
+(modus-themes-load-vivendi)
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
 
-(use-package evil-surround
-  :config
-  (global-evil-surround-mode 1))
+(general-def
+  :keymaps 'vertico-map
+  "C-j" 'vertico-next
+  "C-k" 'vertico-previous
+  )
 
-(use-package all-the-icons)
+(general-def
+  :keymaps 'minibuffer-local-map
+  "M-h" 'backward-kill-word
+  )
 
-(use-package doom-modeline
-  :config
-  (doom-modeline-mode))
+(vertico-mode)
+(marginalia-mode)
 
-(use-package nix-mode)
+(add-hook 'embark-collect-mode-hook 'consult-preview-at-point-mode)
 
-(use-package modus-themes
-  :init
-  (modus-themes-load-themes)
-  :config
-  (modus-themes-load-vivendi))
+(global-corfu-mode)
+(setq corfu-auto t)
 
-(use-package general
-  :after evil
-  :config
-  (general-create-definer dotfiles/leader
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC"))
+(setq which-key-idle-delay 0.0)
+(which-key-mode)
 
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
-  
-(use-package vertico
-  :bind
-  (
-   :map vertico-map
-   ("C-j" . vertico-next)
-   ("C-k" . vertico-previous)
-   :map minibuffer-local-map
-   ("M-h" . backward-kill-word)
-   )
-  :init
-  (vertico-mode))
+(envrc-global-mode)
 
-(use-package marginalia
-  :config
-  (marginalia-mode))
+(defun my/lsp-mode-setup-completion ()
+  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))) ;; Configure orderless
 
-(use-package consult)
+(setq lsp-completion-provider :none) ;; we use Corfu!
+(add-hook 'lsp-completion-mode-hook 'my/lsp-mode-setup-completion)
 
-(use-package embark)
+(setq elm-sort-imports-on-save t)
+(setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred))
 
-(use-package embark-consult
-  :after (embark consult)
-  :demand t
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+(setq lsp-ltex-version "15.2.0")
+(add-hook 'text-mode-hook 'lsp-deferred)
 
-(use-package corfu
-  :init
-  (global-corfu-mode)
-  :config
-  (setq corfu-auto t))
+(pdf-tools-install)
+(dirvish-override-dired-mode)
 
-(use-package diminish)
-
-(use-package which-key
-  :defer 0
-  :diminish which-key-mode
-  :init
-  (setq which-key-idle-delay 0.0)
-  :config
-  (which-key-mode))
-
-(use-package avy)
-
-(use-package envrc
-  :config
-  (envrc-global-mode))
-
-(use-package lsp-mod
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
-  :init
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))) ;; Configure orderless
-  :hook
-  ((lsp-completion-mode . my/lsp-mode-setup-completion))
-  :commands (lsp lsp-deferred))
-
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-
-(use-package elm-mode
-  :config
-  (setq elm-sort-imports-on-save t)
-  (setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred)))
-
-(use-package lsp-ltex
-  :hook (text-mode . lsp-deferred)
-  :init
-  (setq lsp-ltex-version "15.2.0"))
-
-(use-package pdf-tools
-  :config
-  (pdf-tools-install))
-
-(use-package dirvish
-  :config
-  (dirvish-override-dired-mode))
+(require 'org)
 
 (defun dotfiles/org-mode-setup ()
   (org-indent-mode)
-  (variable-pitch-mode 1)
-  (visual-line-mode 1))
-
-(use-package org
-  :hook (org-mode . dotfiles/org-mode-setup)
-  :init
-  ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
+  (variable-pitch-mode)
+  (visual-line-mode)
+  (org-bullets-mode)
+  (setq visual-fill-column-width 120
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode)
   )
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+(setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
 
-(use-package org-roam
-  :after org
-  :init
-  (setq org-roam-directory (concat org-directory "/roam"))
-  (setq org-roam-mode-sections
-	(list #'org-roam-backlinks-section
-	      #'org-roam-reflinks-section
-	      #'org-roam-unlinked-references-section))
-  (add-to-list 'display-buffer-alist
-	       '("\\*roam\\*"
-		 (display-buffer-in-direction)
-		 (direction . right)
-		 (window-width . 0.33)
-		 (window-height .fit-window-to-buffer)))
-  (setq org-roam-dailies-directory "daily/")
-  (setq org-roam-dailies-capture-templates
-	'(
-	  ("d" "default" entry
-           "* %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))
-	  ("t" "default" entry
-           "* foo bar baz test %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))
-	  ))
-  :config
-  (org-roam-db-autosync-mode))
+(add-hook 'org-mode-hook 'dotfiles/org-mode-setup)
 
-(use-package helpful)
+(setq org-roam-directory (concat org-directory "/roam"))
+(setq org-roam-mode-sections
+      (list #'org-roam-backlinks-section
+	    #'org-roam-reflinks-section
+	    #'org-roam-unlinked-references-section))
+(add-to-list 'display-buffer-alist
+	     '("\\*roam\\*"
+	       (display-buffer-in-direction)
+	       (direction . right)
+	       (window-width . 0.33)
+	       (window-height .fit-window-to-buffer)))
+(setq org-roam-dailies-directory "daily/")
+(setq org-roam-dailies-capture-templates
+      '(
+	("j" "journal" plain (file "~/org/templates/journal.org")
+         :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+	 :unnarrowed t)
+	))
 
-;; (use-package hydra
-;;   :defer t)
+(org-roam-db-autosync-mode)
+
+(projectile-mode 1)
+(yas-global-mode 1)
+(pulsar-global-mode 1)
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
@@ -225,72 +140,55 @@
   ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
 
-(use-package projectile
-  :config
-  (projectile-mode 1))
-
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-
-(dotfiles/leader
-  "b" '(:ignore t :which-key "buffer")
-  "bb" 'consult-buffer
-  "bp" 'previous-buffer
-  "bn" 'next-buffer
-  "bk" 'kill-buffer
-  "bs" 'save-buffer
-  "p" '(:ignore t :which-key "project")
-  "pf" 'projectile-find-file
-  "pp" 'projectile-switch-project
-  "w" '(:ignore t :which-key "window")
-  "wo" 'delete-other-windows
-  "wd" 'evil-window-delete
-  "wl" 'evil-window-right
-  "wh" 'evil-window-left
-  "wk" 'evil-window-up
-  "wj" 'evil-window-down
-  "ws" '(:ignore t :which-key "split")
-  "wss" 'evil-window-vsplit
-  "wsh" 'evil-window-split
-  "h" '(:ignore t :which-key "help")
-  "hf" 'describe-function
-  "hk" 'helpful-key
-  "hs" 'helpful-symbol
-  "q" '(:ignore t :which-key "quit")
-  "qq" 'evil-save-and-quit
-  "o" '(:ignore t :which-key "org")
-  "oc" 'org-roam-capture
-  "oa" 'org-agenda
-  "os" 'org-store-link
-  "ot" 'org-todo
-  "of" 'org-roam-node-find
-  "od" '(:ignore t :which-key "dailies")
-  "odf" 'org-roam-dailies-find-today
-  "odc" 'org-roam-dailies-capture-today
-  "j" '(:ignore t :which-key "jump")
-  "jj" '((lambda () (interactive) (evil-avy-goto-char)) :which-key "evil-avy-goto-char")
-  "jg" 'consult-ripgrep
-  "g" '(:ignore t :which-key "git")
-  "gg" 'magit
-  "c" 'evilnc-comment-or-uncomment-lines
-  "f" 'find-file
-  "e" 'eval-buffer
-  ";" 'execute-extended-command
-  "\\" 'indent-region
-  "v" 'check-parens
-  "s" '(hydra-text-scale/body :which-key "scale-text")
-  )
-
-(use-package pulsar
-  :config
-  (pulsar-global-mode 1))
-
-(defun dotfiles/org-mode-visual-fill ()
-  (setq visual-fill-column-width 120
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook
-  (org-mode . dotfiles/org-mode-visual-fill))
+(general-def
+ :states '(normal motion visual)
+ :keymaps 'override
+ :prefix "SPC"
+ :global-prefix "C-SPC"
+ "b" '(:ignore t :which-key "buffer")
+ "bb" 'consult-buffer
+ "bp" 'previous-buffer
+ "bn" 'next-buffer
+ "bk" 'kill-buffer
+ "bs" 'save-buffer
+ "p" '(:ignore t :which-key "project")
+ "pf" 'projectile-find-file
+ "pp" 'projectile-switch-project
+ "w" '(:ignore t :which-key "window")
+ "wo" 'delete-other-windows
+ "wd" 'evil-window-delete
+ "wl" 'evil-window-right
+ "wh" 'evil-window-left
+ "wk" 'evil-window-up
+ "wj" 'evil-window-down
+ "ws" '(:ignore t :which-key "split")
+ "wss" 'evil-window-vsplit
+ "wsh" 'evil-window-split
+ "h" '(:ignore t :which-key "help")
+ "hf" 'describe-function
+ "hk" 'helpful-key
+ "hs" 'helpful-symbol
+ "q" '(:ignore t :which-key "quit")
+ "qq" 'evil-save-and-quit
+ "o" '(:ignore t :which-key "org")
+ "oc" 'org-roam-capture
+ "oa" 'org-agenda
+ "os" 'org-store-link
+ "ot" 'org-todo
+ "of" 'org-roam-node-find
+ "od" '(:ignore t :which-key "dailies")
+ "odf" 'org-roam-dailies-find-today
+ "odc" 'org-roam-dailies-capture-today
+ "j" '(:ignore t :which-key "jump")
+ "jj" '((lambda () (interactive) (evil-avy-goto-char)) :which-key "evil-avy-goto-char")
+ "jg" 'consult-ripgrep
+ "g" '(:ignore t :which-key "git")
+ "gg" 'magit
+ "c" 'evilnc-comment-or-uncomment-lines
+ "f" 'find-file
+ "e" 'eval-buffer
+ ";" 'execute-extended-command
+ "\\" 'indent-region
+ "v" 'check-parens
+ "s" '(hydra-text-scale/body :which-key "scale-text")
+ )

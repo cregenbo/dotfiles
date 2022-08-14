@@ -15,6 +15,8 @@
       yaml-mode
       dashboard
       lsp-ltex
+      flycheck
+      consult-flycheck
 
       # Core
       no-littering
@@ -22,7 +24,6 @@
       helpful
       orderless
       avy
-      use-package
       corfu
       vertico
       marginalia
