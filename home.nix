@@ -86,6 +86,7 @@
     mediainfo
     ffmpegthumbnailer
     virt-manager
+    ltex-ls
 
     # Fonts
     nerdfonts

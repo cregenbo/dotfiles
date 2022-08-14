@@ -14,6 +14,7 @@
       json-mode
       yaml-mode
       dashboard
+      lsp-ltex
 
       # Core
       no-littering
@@ -27,6 +28,7 @@
       marginalia
       consult
       embark
+      embark-consult
       which-key
 
       # Keybindings

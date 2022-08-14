@@ -1,9 +1,6 @@
-
 (require 'package)
 (setq package-archives nil)
 (package-initialize)
-
-
 
 (require 'use-package)
 
@@ -12,7 +9,7 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
-(set-fringe-mode 10)
+(set-fringe-mode 50)
 
 (setq visible-bell t)
 
@@ -93,7 +90,15 @@
 	completion-category-overrides '((file (styles partial-completion)))))
   
 (use-package vertico
-  :config
+  :bind
+  (
+   :map vertico-map
+   ("C-j" . vertico-next)
+   ("C-k" . vertico-previous)
+   :map minibuffer-local-map
+   ("M-h" . backward-kill-word)
+   )
+  :init
   (vertico-mode))
 
 (use-package marginalia
@@ -101,6 +106,14 @@
   (marginalia-mode))
 
 (use-package consult)
+
+(use-package embark)
+
+(use-package embark-consult
+  :after (embark consult)
+  :demand t
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package corfu
   :init
@@ -124,11 +137,6 @@
   :config
   (envrc-global-mode))
 
-(use-package elm-mode
-  :config
-  (setq elm-sort-imports-on-save t)
-  (setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred)))
-
 (use-package lsp-mod
   :custom
   (lsp-completion-provider :none) ;; we use Corfu!
@@ -142,6 +150,16 @@
 
 (use-package lsp-ui
   :commands lsp-ui-mode)
+
+(use-package elm-mode
+  :config
+  (setq elm-sort-imports-on-save t)
+  (setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred)))
+
+(use-package lsp-ltex
+  :hook (text-mode . lsp-deferred)
+  :init
+  (setq lsp-ltex-version "15.2.0"))
 
 (use-package pdf-tools
   :config
@@ -198,11 +216,8 @@
 
 (use-package helpful)
 
-(use-package hydra
-  :defer t)
-
-(use-package org-fc
-  :after org hydra)
+;; (use-package hydra
+;;   :defer t)
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
@@ -228,7 +243,6 @@
   "p" '(:ignore t :which-key "project")
   "pf" 'projectile-find-file
   "pp" 'projectile-switch-project
-  "pg" 'projectile-ripgrep
   "w" '(:ignore t :which-key "window")
   "wo" 'delete-other-windows
   "wd" 'evil-window-delete
@@ -278,4 +292,5 @@
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . dotfiles/org-mode-visual-fill))
+  :hook
+  (org-mode . dotfiles/org-mode-visual-fill))
