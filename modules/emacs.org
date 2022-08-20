@@ -1,0 +1,12 @@
+#+TITLE: Emacs Config
+:PROPERTIES:
+#+PROPERTY:  header-args :results silent :tangle yes
+:END:
+
+#+BEGIN_SRC emacs-lisp
+(+ 1 2 3)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(* 1 2 3)
+#+END_SRC
