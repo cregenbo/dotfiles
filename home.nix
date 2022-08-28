@@ -86,7 +86,7 @@
     mediainfo
     ffmpegthumbnailer
     virt-manager
-    ltex-ls
+    # ltex-ls
     exercism
 
     # Fonts
@@ -137,6 +137,11 @@
 
     # Web dev
     jetbrains.webstorm
+    elmPackages.elm
+    elmPackages.elm-language-server
+    elmPackages.elm-format
+    elmPackages.elm-test
+    elmPackages.elm-review
 
     # Cloud
     hcloud
@@ -228,12 +233,15 @@
     enable = true;
     fade = true;
     backend = "glx";
-    inactiveOpacity = 0.8;
-    settings.inactiveDim = 0.1;
-    settings.blur = true;
+    inactiveOpacity = "0.8";
+    inactiveDim = "0.1";
+    blur = true;
     shadow = true;
     vSync = true;
-    opacityRules = [ "100:class_g = 'i3lock'"];
+    opacityRule = [
+      "100:class_g = 'i3lock'"
+      "100:class_g = 'brave-browser'"
+    ];
   };
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;

@@ -78,6 +78,8 @@
 
 (envrc-global-mode)
 
+(require 'flycheck)
+
 (defun my/lsp-mode-setup-completion ()
   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))) ;; Configure orderless
 
@@ -85,7 +87,7 @@
 (add-hook 'lsp-completion-mode-hook 'my/lsp-mode-setup-completion)
 
 (setq elm-sort-imports-on-save t)
-(setq elm-mode-hook '(elm-indent-simple-mode elm-format-on-save-mode lsp-deferred))
+(setq elm-mode-hook '(elm-format-on-save-mode lsp-deferred))
 
 (setq lsp-ltex-version "15.2.0")
 (add-hook 'text-mode-hook 'lsp-deferred)
@@ -192,3 +194,15 @@
  "v" 'check-parens
  "s" '(hydra-text-scale/body :which-key "scale-text")
  )
+
+(general-def
+ :states '(normal motion visual)
+ :keymaps 'rust-mode-map
+ :prefix "SPC"
+ "m" '(:ignore t :which-key "rust-mode")
+ "mt" 'rustic-cargo-test
+ "ma" 'lsp-execute-code-action
+ "md" 'lsp-describe-thing-at-point
+ "mf" 'rustic-format-dwim
+ )
+

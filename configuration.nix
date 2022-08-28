@@ -72,7 +72,7 @@
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
 
-  services.adguardhome.enable = true;
+  # services.adguardhome.enable = true;
   services.tailscale.enable = true;
   services.sshd.enable = true;
 
