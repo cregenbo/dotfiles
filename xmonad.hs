@@ -11,6 +11,8 @@ import XMonad.Actions.CycleWS
 import XMonad.Layout.NoBorders
 import XMonad.Hooks.SetWMName
 import XMonad.Actions.WindowBringer
+import XMonad.Hooks.StatusBar
+import XMonad.Hooks.StatusBar.PP
 
 import qualified Data.Map as M
 
@@ -18,27 +20,27 @@ myLayout = smartBorders $ spacingRaw True (Border 0 0 0 0) False (Border 7 7 7 7
 
 myStartup:: X ()
 myStartup = do
-  spawnOnce "~/dotfiles/feh-slideshow.sh"
-  spawnOnce "picom --config ~/.config/picom/picom.conf"
+  spawn "xrandr --output HDMI-A-0 --set TearFree on"
+  spawnOnce "nitrogen --restore"
   setWMName "LG3D"
 
 main :: IO ()
-main = xmonad =<<  myXmobar myConfig
+main = xmonad . myPolybar . ewmh . ewmhFullscreen $ myConfig
 
-myXmobar = statusBar "xmobar ~/.xmonad/xmobar.hs" myXmobarPP toggleStrutsKey
-myXmobarPP = xmobarPP {ppTitle   = xmobarColor "green"  "" . shorten 120}
-toggleStrutsKey XConfig{modMask = modm} = (modm, xK_b)
+myPolybar = withEasySB (statusBarProp "polybar" (pure def)) defToggleStrutsKey
 
-myConfig = ewmh $ def
+myConfig = def
   { modMask     = mod4Mask
-  , terminal    = "nixGL kitty"
+  , terminal    = "kitty"
   , layoutHook  = myLayout
   , startupHook = myStartup
   } `additionalKeysP` myKeyBindings
 
 myKeyBindings :: [(String, X())]
 myKeyBindings =
-  [ ("M-w", gotoMenu)
+  [ ("M-w", spawn "rofi -show window -font \"JetBrainsMono Nerd Font 20\"")
+  , ("M-p", spawn "rofi -show drun -font \"JetBrainsMono Nerd Font 20\"")
+  , ("M-s", spawn "rofi -show ssh -font \"JetBrainsMono Nerd Font 20\"")
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
   , ("M-S-s", spawn "systemctl suspend")
@@ -49,7 +51,6 @@ configFiles = M.fromList
   [ ("xmonad", ".xmonad/xmonad.hs")
   , ("zsh", ".zshrc")
   , ("kitty", ".config/kitty/kitty.conf")
-  , ("picom", ".config/picom/picom.conf")
   ]
 
 configFilesDmenu :: X ()
