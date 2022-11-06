@@ -43,6 +43,9 @@ myKeyBindings =
   , ("M-s", spawn "rofi -show ssh -font \"JetBrainsMono Nerd Font 20\"")
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
+  , ("<XF86AudioMute>", spawn "amixer set Master toggle")
+  , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume 0 -5%")
+  , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume 0 +5%")
   , ("M-S-s", spawn "systemctl suspend")
   ]
 
