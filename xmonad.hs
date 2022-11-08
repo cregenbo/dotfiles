@@ -38,7 +38,7 @@ myConfig = def
 
 myKeyBindings :: [(String, X())]
 myKeyBindings =
-  [ ("M-w", spawn "rofi -show window -font \"JetBrainsMono Nerd Font 20\"")
+  [ ("M-o", spawn "rofi -show window -font \"JetBrainsMono Nerd Font 20\"")
   , ("M-p", spawn "rofi -show drun -font \"JetBrainsMono Nerd Font 20\"")
   , ("M-s", spawn "rofi -show ssh -font \"JetBrainsMono Nerd Font 20\"")
   , ("M-;", toggleWS)
