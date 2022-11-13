@@ -13,6 +13,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Actions.WindowBringer
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.WindowSwallowing
 
 import qualified Data.Map as M
 
@@ -34,13 +35,16 @@ myConfig = def
   , terminal    = "kitty"
   , layoutHook  = myLayout
   , startupHook = myStartup
+  , handleEventHook = myHandleEventHook
   } `additionalKeysP` myKeyBindings
+
+myHandleEventHook = swallowEventHook (className =? "kitty") (return True)
 
 myKeyBindings :: [(String, X())]
 myKeyBindings =
-  [ ("M-o", spawn "rofi -show window -font \"JetBrainsMono Nerd Font 20\"")
-  , ("M-p", spawn "rofi -show drun -font \"JetBrainsMono Nerd Font 20\"")
-  , ("M-s", spawn "rofi -show ssh -font \"JetBrainsMono Nerd Font 20\"")
+  [ ("M-o", spawn "rofi -show window -font \"JetBrainsMono Nerd Font 40\"")
+  , ("M-p", spawn "rofi -show drun -font \"JetBrainsMono Nerd Font 40\"")
+  , ("M-s", spawn "rofi -show ssh -font \"JetBrainsMono Nerd Font 40\"")
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
