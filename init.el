@@ -1,8 +1,13 @@
-
 (require 'package)
-(setq package-archives nil)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
 (package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
 (require 'use-package)
+(setq use-package-always-ensure t)
 
 (setq standard-indent 2)
 (scroll-bar-mode -1)
@@ -13,17 +18,29 @@
 
 (setq visible-bell t)
 
-(auto-save-mode -1)
-;; (setq auto-save-visited-interval 1)
-;; (auto-save-visited-mode)
-
-;; (column-number-mode)
-;; (global-display-line-numbers-mode t)
-
+(use-package super-save
+  :init
+  (setq super-save-auto-save-when-idle t)
+  (setq super-save-idle-duration 1)
+  (setq auto-save-default nil)
+  :config
+  (super-save-mode +1))
 
 (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'fixed-pitch nil :family "JetBrainsMono Nerd Font" :height 130)
 (set-face-attribute 'variable-pitch nil :family "Ubuntu Nerd Font" :height 140)
+
+(use-package dashboard
+  :init
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-center-content t)
+  (setq dashboard-set-heading-icons t) 
+  (setq dashboard-set-file-icons t) 
+  (setq dashboard-set-navigator t)
+  (setq dashboard-items '((recents . 5) (projects . 5) (agenda . 5)))
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package no-littering)
 
@@ -72,7 +89,7 @@
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
-  
+
 (use-package vertico
   :config
   (vertico-mode))
@@ -87,7 +104,7 @@
   :init
   (setq corfu-auto t)
   :config
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package diminish)
 
@@ -139,7 +156,7 @@
            :target (file+head "%<%Y-%m-%d>.org"
                               "#+title: %<%Y-%m-%d>\n"))
 	  ("t" "default" entry
-           "* foo bar baz test %?"
+ 
            :target (file+head "%<%Y-%m-%d>.org"
                               "#+title: %<%Y-%m-%d>\n"))
 	  ))
@@ -150,25 +167,6 @@
 
 (use-package hydra
   :defer t)
-
-(use-package org-fc
-  :custom (org-fc-directories '("~/org"))
-  :config
-  (require 'org-fc-hydra)
-  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-flip-mode
-    (kbd "RET") 'org-fc-review-flip
-    (kbd "n") 'org-fc-review-flip
-    (kbd "s") 'org-fc-review-suspend-card
-    (kbd "q") 'org-fc-review-quit)
-
-  (evil-define-minor-mode-key '(normal insert emacs) 'org-fc-review-rate-mode
-    (kbd "a") 'org-fc-review-rate-again
-    (kbd "h") 'org-fc-review-rate-hard
-    (kbd "g") 'org-fc-review-rate-good
-    (kbd "e") 'org-fc-review-rate-easy
-    (kbd "s") 'org-fc-review-suspend-card
-    (kbd "q") 'org-fc-review-quit)
-  )
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
@@ -184,19 +182,42 @@
   :config
   (yas-global-mode 1))
 
-(dotfiles/leader
+(use-package pulsar
+  :config
+  (pulsar-global-mode 1))
+
+(defun dotfiles/org-mode-visual-fill ()
+  (setq visual-fill-column-width 120
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package visual-fill-column
+  :hook (org-mode . dotfiles/org-mode-visual-fill))
+
+(general-def
+  :states '(normal motion visual)
+  :keymaps 'override
+  :prefix "SPC"
+  :global-prefix "C-SPC"
   "b" '(:ignore t :which-key "buffer")
   "bb" 'consult-buffer
   "bp" 'previous-buffer
   "bn" 'next-buffer
   "bk" 'kill-buffer
   "bs" 'save-buffer
+  "p" '(:ignore t :which-key "project")
+  "pf" 'projectile-find-file
+  "pp" 'projectile-switch-project
   "w" '(:ignore t :which-key "window")
   "wo" 'delete-other-windows
+  "wd" 'evil-window-delete
   "wl" 'evil-window-right
   "wh" 'evil-window-left
   "wk" 'evil-window-up
   "wj" 'evil-window-down
+  "ws" '(:ignore t :which-key "split")
+  "wss" 'evil-window-vsplit
+  "wsh" 'evil-window-split
   "h" '(:ignore t :which-key "help")
   "hf" 'describe-function
   "hk" 'helpful-key
@@ -215,28 +236,12 @@
   "j" '(:ignore t :which-key "jump")
   "jj" '((lambda () (interactive) (evil-avy-goto-char)) :which-key "evil-avy-goto-char")
   "jg" 'consult-ripgrep
+  "g" '(:ignore t :which-key "git")
+  "gg" 'magit
   "c" 'evilnc-comment-or-uncomment-lines
   "f" 'find-file
   "e" 'eval-buffer
   ";" 'execute-extended-command
   "\\" 'indent-region
   "v" 'check-parens
-  "s" '(hydra-text-scale/body :which-key "scale-text")
-  )
-
-(defun savebuf(begin end length)
-  (if (and (buffer-file-name) (buffer-modified-p))
-       (save-buffer)))
-(add-hook 'after-change-functions 'savebuf)
-
-(use-package pulsar
-  :config
-  (pulsar-global-mode 1))
-
-(defun dotfiles/org-mode-visual-fill ()
-  (setq visual-fill-column-width 120
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package visual-fill-column
-  :hook (org-mode . dotfiles/org-mode-visual-fill))
+  "s" '(hydra-text-scale/body :which-key "scale-text"))
