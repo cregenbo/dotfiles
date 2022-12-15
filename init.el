@@ -6,6 +6,7 @@
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
+
 (require 'use-package)
 (setq use-package-always-ensure t)
 
@@ -14,7 +15,7 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
-(set-fringe-mode 10)
+(set-fringe-mode 20)
 
 (setq visible-bell t)
 
@@ -71,8 +72,6 @@
 (use-package nix-mode)
 
 (use-package modus-themes
-  :init
-  (modus-themes-load-themes)
   :config
   (modus-themes-load-vivendi))
 
@@ -121,13 +120,21 @@
 (defun dotfiles/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
-  (visual-line-mode 1))
+  (visual-line-mode 1)
+  )
 
 (use-package org
   :hook (org-mode . dotfiles/org-mode-setup)
   :init
   ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
   )
+
+(custom-set-faces
+ '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.3))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.2))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.1)))))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
@@ -174,6 +181,14 @@
   ("k" text-scale-decrease "out")
   ("f" nil "finished" :exit t))
 
+(defhydra hydra-window-scale (:timeout 4)
+  "scale window"
+  ("j" shrink-window "decrease vertically")
+  ("k" enlarge-window "increase vertically")
+  ("h" shrink-window-horizontally "decrease horizontally")
+  ("l" enlarge-window-horizontally "increase horizontally")
+  ("f" nil "finished" :exit t))
+
 (use-package projectile
   :config
   (projectile-mode 1))
@@ -193,6 +208,43 @@
 
 (use-package visual-fill-column
   :hook (org-mode . dotfiles/org-mode-visual-fill))
+
+(use-package kbd-mode
+  :load-path "~/.emacs.d/elisp/")
+
+(use-package rustic)
+
+(general-def
+  :states '(normal motion visual)
+  :keymaps 'rust-mode-map
+  :prefix "SPC"
+  "m" '(:ignore t :which-key "rust-mode")
+  "mt" 'rustic-cargo-test
+  "ma" 'lsp-execute-code-action
+  "md" 'lsp-describe-thing-at-point
+  "mf" 'rustic-format-dwim
+  )
+
+(use-package magit)
+
+(use-package haskell-mode)
+
+(use-package lsp-mode
+  :hook (
+	 (haskell-mode . lsp)
+	 (lsp-mode . lsp-enable-which-key-integration))
+  :commands (lsp lsp-deferred))
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package dap-mode)
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package evil-nerd-commenter)
 
 (general-def
   :states '(normal motion visual)
@@ -215,6 +267,7 @@
   "wh" 'evil-window-left
   "wk" 'evil-window-up
   "wj" 'evil-window-down
+  "wa" '(hydra-window-scale/body :which-key "scale-window")
   "ws" '(:ignore t :which-key "split")
   "wss" 'evil-window-vsplit
   "wsh" 'evil-window-split
@@ -222,6 +275,9 @@
   "hf" 'describe-function
   "hk" 'helpful-key
   "hs" 'helpful-symbol
+  "hd" 'shortdoc-display-group
+  "hm" 'describe-mode
+  "hp" 'describe-package
   "q" '(:ignore t :which-key "quit")
   "qq" 'evil-save-and-quit
   "o" '(:ignore t :which-key "org")
@@ -238,6 +294,7 @@
   "jg" 'consult-ripgrep
   "g" '(:ignore t :which-key "git")
   "gg" 'magit
+  "l" 'ielm
   "c" 'evilnc-comment-or-uncomment-lines
   "f" 'find-file
   "e" 'eval-buffer
@@ -245,3 +302,12 @@
   "\\" 'indent-region
   "v" 'check-parens
   "s" '(hydra-text-scale/body :which-key "scale-text"))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(zen-mode lsp-haskell lsp-ui dap-mode lsp-mode evil-nerd-commenter rainbow-delimiters rustic haskell-mode yasnippet which-key visual-fill-column vertico use-package super-save pulsar projectile org-roam org-bullets orderless no-littering nix-mode modus-themes marginalia hydra helpful general evil-surround evil-collection doom-modeline diminish dashboard corfu consult avy all-the-icons)))
+

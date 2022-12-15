@@ -21,7 +21,11 @@ myLayout = smartBorders $ spacingRaw True (Border 0 0 0 0) False (Border 7 7 7 7
 
 myStartup:: X ()
 myStartup = do
-  spawn "xrandr --output HDMI-A-0 --set TearFree on"
+  spawn "xrandr --output DisplayPort-0 --primary --set TearFree on"
+  spawn "xrandr --output HDMI-A-0 --same-as DisplayPort-0 --set TearFree on"
+  spawnOnce "emacs --daemon"
+  spawnOnce "warpd"
+  spawnOnce "xbanish"
   spawnOnce "nitrogen --restore"
   setWMName "LG3D"
 
