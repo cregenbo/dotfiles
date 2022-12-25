@@ -199,7 +199,11 @@
 
 (use-package pulsar
   :config
-  (pulsar-global-mode 1))
+  (pulsar-global-mode 1)
+  (advice-add 'evil-next-line :after 'pulsar-pulse-line)
+  (advice-add 'evil-previous-line :after 'pulsar-pulse-line)
+  )
+
 
 (defun dotfiles/org-mode-visual-fill ()
   (setq visual-fill-column-width 120
