@@ -1,0 +1,9 @@
+[Unit]
+Description=warpd
+Documentation=man:warpd(1) https://github.com/rvaiya/warpd
+
+[Service]
+ExecStart=/usr/local/bin/warpd --foreground
+
+[Install]
+WantedBy=default.target
