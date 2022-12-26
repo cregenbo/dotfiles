@@ -71,6 +71,7 @@
   };
   services.xserver.windowManager.xmonad.enable = true;
   services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  services.xbanish.enable = true;
 
   # services.adguardhome.enable = true;
   services.tailscale.enable = true;
@@ -92,7 +93,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.chris = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "libvirtd" "lxd" "wireshark"];
+    extraGroups = [ "wheel" "libvirtd" "lxd" "wireshark"];
     shell = pkgs.fish;
   };
 
@@ -100,11 +101,8 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
   virtualisation.libvirtd.enable = true;
-  virtualisation.lxd.enable = true;
-
 
   environment.systemPackages = with pkgs; [
     neovim
@@ -114,7 +112,6 @@
     ncdu
 
     # Virtualization
-    docker-compose
     podman-compose
     dive
 

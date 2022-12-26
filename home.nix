@@ -36,18 +36,14 @@
     ncdu = "ncdu --color dark";
   };
 
+  fonts.fontconfig.enable = true;
+
+  programs.git.enable = true;
+  programs.git.userEmail = "chrisregenboog@protonmail.com";
+  programs.git.userName = "Chris Regenboog";
+
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
-
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    enableSyntaxHighlighting = true;
-    history.size = 100000;
-    history.path = "${config.xdg.dataHome}/zsh/history";
-    oh-my-zsh.enable = true;
-    oh-my-zsh.plugins = [ "git" "sudo" "aws" "vi-mode" ];
-  };
 
   programs.fish = {
     enable = true;
@@ -63,24 +59,26 @@
     ];
   };
 
-  programs.fzf.enable = true;
-
   qt.enable = true;
 
   programs.gpg.enable = true;
   services.gpg-agent.enable = true;
+
+  programs.rofi = {
+    enable = true;
+    theme = "DarkBlue";
+    font = "JetBrainsMono Nerd Font 40";
+  };
   
   home.packages = with pkgs; [
     nyxt
     glances
-    zsh-you-should-use
     graphviz
     xdot
     sshfs
     pandoc
     httpie
     wireshark
-    jetbrains.phpstorm
     neofetch
     imagemagick
     mediainfo
@@ -88,6 +86,7 @@
     virt-manager
     # ltex-ls
     exercism
+    warpd
 
     # Fonts
     nerdfonts
@@ -108,9 +107,7 @@
     dmenu
     haskellPackages.xmobar
     feh
-
-    # Wallpaper manager
-    variety
+    nitrogen
 
     # Browser
     qutebrowser
@@ -177,8 +174,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # services.polybar.enable = true;
-  # services.polybar.script = "polybar top &";
+  services.polybar.enable = true;
+  services.polybar.script = "polybar top &";
   # services.polybar.settings = {
   #   "bar/top" = {
   #     modules-right = "date";
@@ -229,20 +226,20 @@
     "$HOME/.cargo/bin"
   ];
 
-  services.picom = {
-    enable = true;
-    fade = true;
-    backend = "glx";
-    inactiveOpacity = "0.8";
-    inactiveDim = "0.1";
-    blur = true;
-    shadow = true;
-    vSync = true;
-    opacityRule = [
-      "100:class_g = 'i3lock'"
-      "100:class_g = 'brave-browser'"
-    ];
-  };
+#  services.picom = {
+#    enable = true;
+#    fade = true;
+#    backend = "glx";
+#    inactiveOpacity = "0.8";
+#    inactiveDim = "0.1";
+#    blur = true;
+#    shadow = true;
+#    vSync = true;
+#    opacityRule = [
+#      "100:class_g = 'i3lock'"
+#      "100:class_g = 'brave-browser'"
+#    ];
+#  };
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;

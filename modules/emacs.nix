@@ -64,8 +64,14 @@
       elm-mode
       nix-mode
       rustic
+      haskell-mode
     ];
   };
+
+  home.packages = with pkgs; [
+    emacs-all-the-icons-fonts
+  ];
+
 
   home.file.".emacs.d/init.el".source = ./init.el;
   home.shellAliases = {
