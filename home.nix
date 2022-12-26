@@ -38,6 +38,9 @@
 
   fonts.fontconfig.enable = true;
 
+  manual.html.enable = true;
+  manual.json.enable = true;
+
   programs.git.enable = true;
   programs.git.userEmail = "chrisregenboog@protonmail.com";
   programs.git.userName = "Chris Regenboog";
@@ -176,6 +179,7 @@
 
   services.polybar.enable = true;
   services.polybar.script = "polybar top &";
+  # services.polybar.config = ./polybar.ini;
   # services.polybar.settings = {
   #   "bar/top" = {
   #     modules-right = "date";
@@ -218,6 +222,7 @@
       enable_audio_bell = false;
       font_size = 22;
       font_family = "JetBrainsMono Nerd Font";
+      shell_integration = true;
     };
     theme = "Space Gray Eighties";
   };
@@ -226,21 +231,22 @@
     "$HOME/.cargo/bin"
   ];
 
-#  services.picom = {
-#    enable = true;
-#    fade = true;
-#    backend = "glx";
-#    inactiveOpacity = "0.8";
-#    inactiveDim = "0.1";
-#    blur = true;
-#    shadow = true;
-#    vSync = true;
-#    opacityRule = [
-#      "100:class_g = 'i3lock'"
-#      "100:class_g = 'brave-browser'"
-#    ];
-#  };
+  services.picom = {
+    enable = true;
+    fade = true;
+    backend = "glx";
+    inactiveOpacity = 0.9;
+    # inactiveDim = "0.1";
+    # blur = true;
+    shadow = true;
+    vSync = true;
+    opacityRules = [
+        "100:class_g = 'i3lock'"
+        "100:class_g = 'brave-browser'"
+    ];
+  };
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
+  home.file.".config/polybar/polybar.ini".source = ./polybar.ini;
 }
