@@ -179,7 +179,7 @@
 
   services.polybar.enable = true;
   services.polybar.script = "polybar top &";
-  # services.polybar.config = ./polybar.ini;
+  services.polybar.config = ./polybar.ini;
   # services.polybar.settings = {
   #   "bar/top" = {
   #     modules-right = "date";
@@ -248,5 +248,4 @@
 
   home.file.".xmonad/xmobar.hs".source = ./xmobar.hs;
   home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
-  home.file.".config/polybar/polybar.ini".source = ./polybar.ini;
 }
