@@ -5,5 +5,6 @@
     wine64
     lutris
     steam
+    steam-run
   ];
 }

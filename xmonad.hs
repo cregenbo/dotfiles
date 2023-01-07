@@ -23,8 +23,8 @@ myStartup:: X ()
 myStartup = do
 --  spawn "xrandr --output DisplayPort-0 --primary --set TearFree on"
 --  spawn "xrandr --output HDMI-A-0 --same-as DisplayPort-0 --set TearFree on"
---  spawnOnce "warpd"
---  spawnOnce "xbanish"
+  spawnOnce "megasync"
+  spawnOnce "warpd"
   spawnOnce "nitrogen --restore"
   setWMName "LG3D"
 

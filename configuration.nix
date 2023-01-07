@@ -111,6 +111,9 @@
     htop
     ncdu
 
+    # Btrfs tools
+    compsize
+
     # Virtualization
     podman-compose
     dive
