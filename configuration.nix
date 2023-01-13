@@ -77,6 +77,32 @@
   services.tailscale.enable = true;
   services.sshd.enable = true;
 
+  services.prometheus.enable = true;
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.scrapeConfigs = [
+    {
+      job_name = "node";
+      static_configs = [{
+        targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+      }];
+    }
+    {
+      job_name = "prometheus";
+      static_configs = [{
+        targets = [ "localhost:${toString config.services.prometheus.port}" ];
+      }];
+    }
+  ];
+  services.grafana.enable = true;
+  services.grafana.settings.server.http_addr = "127.0.0.1";
+  services.grafana.settings.server.http_port = 3000;
+  services.grafana.provision.datasources.settings.datasources = [
+    {
+      name = "Prometheus";
+      type = "prometheus";
+      url = "http://localhost:${toString config.services.prometheus.port}";
+    }];
+
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
