@@ -44,6 +44,10 @@
   programs.git.enable = true;
   programs.git.userEmail = "chrisregenboog@protonmail.com";
   programs.git.userName = "Chris Regenboog";
+  programs.git.difftastic.enable = true;
+  programs.git.extraConfig = {
+    core.autoclrf = true;
+  };
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
@@ -211,6 +215,7 @@
   };
 
   services.syncthing.enable = true;
+  services.syncthing.tray.enable = true;
 
   programs.starship.enable = true;
 

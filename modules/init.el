@@ -87,10 +87,10 @@
 (add-hook 'lsp-completion-mode-hook 'my/lsp-mode-setup-completion)
 
 (setq elm-sort-imports-on-save t)
-(setq elm-mode-hook '(elm-format-on-save-mode lsp-deferred))
+(setq elm-mode-hook '(lsp-deferred))
 
-(setq lsp-ltex-version "15.2.0")
-(add-hook 'text-mode-hook 'lsp-deferred)
+;; (setq lsp-ltex-version "15.2.0")
+;; (add-hook 'text-mode-hook 'lsp-deferred)
 
 (pdf-tools-install)
 (dirvish-override-dired-mode)
