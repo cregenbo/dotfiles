@@ -109,6 +109,7 @@
     libsForQt5.konsole
     glxinfo
     go-sct
+    qbittorrent
 
     # Window Manager
     dmenu
@@ -146,6 +147,8 @@
     elmPackages.elm-format
     elmPackages.elm-test
     elmPackages.elm-review
+    elmPackages.elm-live
+    nodePackages.tailwindcss
 
     # Cloud
     hcloud
@@ -211,7 +214,12 @@
       nvim-cmp
       comment-nvim
       vim-airline
+      nvim-treesitter.withAllGrammars
     ];
+  };
+
+  programs.vscode = {
+    enable = true;
   };
 
   services.syncthing.enable = true;
