@@ -14,7 +14,6 @@
       json-mode
       yaml-mode
       dashboard
-      lsp-ltex
       flycheck
       consult-flycheck
 
@@ -58,6 +57,7 @@
       yasnippet
       magit
       projectile
+      eglot
       lsp-mode
       lsp-ui
       envrc

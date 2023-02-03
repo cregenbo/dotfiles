@@ -78,7 +78,6 @@
   };
   
   home.packages = with pkgs; [
-    nyxt
     glances
     graphviz
     xdot
@@ -94,6 +93,7 @@
     # ltex-ls
     exercism
     warpd
+    rnix-lsp
 
     # Fonts
     nerdfonts
@@ -120,6 +120,7 @@
     # Browser
     qutebrowser
     brave
+    nyxt
     
     # Database
     jetbrains.datagrip
@@ -142,13 +143,19 @@
 
     # Web dev
     jetbrains.webstorm
+    nodePackages.tailwindcss
+
+    # Elm
     elmPackages.elm
     elmPackages.elm-language-server
     elmPackages.elm-format
     elmPackages.elm-test
     elmPackages.elm-review
     elmPackages.elm-live
-    nodePackages.tailwindcss
+
+    # Haskell
+    haskell-language-server
+    (haskellPackages.ghcWithPackages (p: [ p.xmonad p.xmonad-contrib ] ))
 
     # Cloud
     hcloud
@@ -214,7 +221,7 @@
       nvim-cmp
       comment-nvim
       vim-airline
-      nvim-treesitter.withAllGrammars
+      nvim-treesitter
     ];
   };
 

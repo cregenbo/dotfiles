@@ -80,14 +80,14 @@
 
 (require 'flycheck)
 
-(defun my/lsp-mode-setup-completion ()
-  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))) ;; Configure orderless
+;; (defun my/lsp-mode-setup-completion ()
+;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults)) '(orderless))) ;; Configure orderless
 
-(setq lsp-completion-provider :none) ;; we use Corfu!
-(add-hook 'lsp-completion-mode-hook 'my/lsp-mode-setup-completion)
+;; (setq lsp-completion-provider :none) ;; we use Corfu!
+;; (add-hook 'lsp-completion-mode-hook 'my/lsp-mode-setup-completion)
 
-(setq elm-sort-imports-on-save t)
-(setq elm-mode-hook '(lsp-deferred))
+;; (setq elm-sort-imports-on-save t)
+;; (setq elm-mode-hook '(lsp-deferred))
 
 ;; (setq lsp-ltex-version "15.2.0")
 ;; (add-hook 'text-mode-hook 'lsp-deferred)
@@ -135,6 +135,9 @@
 (projectile-mode 1)
 (yas-global-mode 1)
 (pulsar-global-mode 1)
+
+;; Disable eldoc in minibuffer, prefer to use eldoc-doc-buffer
+(setq eldoc-echo-area-use-multiline-p nil)
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
