@@ -137,7 +137,9 @@
 (pulsar-global-mode 1)
 
 ;; Disable eldoc in minibuffer, prefer to use eldoc-doc-buffer
-(setq eldoc-echo-area-use-multiline-p nil)
+;; (setq eldoc-echo-area-use-multiline-p nil)
+
+(add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
@@ -209,3 +211,16 @@
  "mf" 'rustic-format-dwim
  )
 
+(general-def
+ :states '(normal motion visual)
+ :keymaps 'elm-mode-map
+ :prefix "SPC"
+ "m" '(:ignore t :which-key "elm-mode")
+ "mt" 'elm-test-project
+ "mi" 'elm-interactive
+ "ma" 'eglot-code-actions
+ "mj" 'flymake-goto-next-error
+ "mk" 'flymake-goto-prev-error
+ "mf" 'eglot-format-buffer
+ )
+  

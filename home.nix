@@ -94,6 +94,8 @@
     exercism
     warpd
     rnix-lsp
+    qmk
+    via # keyboard config tool
 
     # Fonts
     nerdfonts
@@ -156,6 +158,7 @@
     # Haskell
     haskell-language-server
     (haskellPackages.ghcWithPackages (p: [ p.xmonad p.xmonad-contrib ] ))
+    stack
 
     # Cloud
     hcloud
