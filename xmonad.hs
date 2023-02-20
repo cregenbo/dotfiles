@@ -48,6 +48,7 @@ myKeyBindings =
   [ ("M-o", spawn "rofi -show window")
   , ("M-p", spawn "rofi -show drun")
   , ("M-s", spawn "rofi -show ssh")
+  , ("M-`", spawn "maim --select ~/Pictures/screenshots/$(date +%s).png")
   , ("M-;", toggleWS)
   , ("M-e", spawn "emacsclient -c")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")

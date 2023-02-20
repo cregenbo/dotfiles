@@ -96,6 +96,7 @@
     rnix-lsp
     qmk
     via # keyboard config tool
+    maim # screenshot tool
 
     # Fonts
     nerdfonts
@@ -247,7 +248,7 @@
       font_family = "JetBrainsMono Nerd Font";
       shell_integration = true;
     };
-    theme = "Space Gray Eighties";
+    theme = "Modus Vivendi";
   };
 
   home.sessionPath = [

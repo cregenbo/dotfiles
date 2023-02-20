@@ -18,6 +18,7 @@
       consult-flycheck
 
       # Core
+      use-package
       no-littering
       super-save
       helpful

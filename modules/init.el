@@ -139,7 +139,10 @@
 ;; Disable eldoc in minibuffer, prefer to use eldoc-doc-buffer
 ;; (setq eldoc-echo-area-use-multiline-p nil)
 
-(add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
+;; (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
+
+(use-package 'nix-mode
+  :mode "\\.nix\\'")
 
 (defhydra hydra-text-scale (:timeout 4)
   "scale text"
