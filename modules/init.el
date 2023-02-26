@@ -13,10 +13,13 @@
 
 (require 'no-littering)
 
-(auto-save-mode -1)
-(setq super-save-auto-save-when-idle t)
-(setq super-save-idle-duration 1)
-(super-save-mode +1)
+(use-package super-save
+  :config
+  (setq super-save-auto-save-when-idle t)
+  (setq super-save-idle-duration 1)
+  (super-save-mode +1)
+  (auto-save-mode -1)
+)
 
 ;; (auto-save-visited-mode)
 ;; (setq auto-save-visited-interval 1)
@@ -95,8 +98,6 @@
 (pdf-tools-install)
 (dirvish-override-dired-mode)
 
-(require 'org)
-
 (defun dotfiles/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode)
@@ -107,30 +108,45 @@
   (visual-fill-column-mode)
   )
 
-(setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
+(use-package org
+  :hook (org-mode . dotfiles/org-mode-setup)
+  :config
+  (setq org-directory "~/org")
+  (setq org-agenda-files '("~/org"))
+  (setq org-capture-templates
+	'(("t" "Personal TODO" entry
+	   (file+headline "personal-todo.org" "Tasks")
+	   "* TODO %^{task} :personal:%^G\n:PROPERTIES:\n:timestamp: %T\n:END:"))))
 
-(add-hook 'org-mode-hook 'dotfiles/org-mode-setup)
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(setq org-roam-directory (concat org-directory "/roam"))
-(setq org-roam-mode-sections
-      (list #'org-roam-backlinks-section
-	    #'org-roam-reflinks-section
-	    #'org-roam-unlinked-references-section))
-(add-to-list 'display-buffer-alist
-	     '("\\*roam\\*"
-	       (display-buffer-in-direction)
-	       (direction . right)
-	       (window-width . 0.33)
-	       (window-height .fit-window-to-buffer)))
-(setq org-roam-dailies-directory "daily/")
-(setq org-roam-dailies-capture-templates
-      '(
-	("j" "journal" plain (file "~/org/templates/journal.org")
-         :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
-	 :unnarrowed t)
-	))
-
-(org-roam-db-autosync-mode)
+(use-package org-roam
+  :after org
+  :init
+  (setq org-roam-directory "~/org/roam")
+  (org-roam-mode-sections
+   (list #'org-roam-backlinks-section
+	 #'org-roam-reflinks-section
+	 #'org-roam-unlinked-references-section))
+  (add-to-list 'display-buffer-alist
+	       '("\\*roam\\*"
+		 (display-buffer-in-direction)
+		 (direction . right)
+		 (window-width . 0.33)
+		 (window-height .fit-window-to-buffer)))
+  ;; (org-roam-dailies-directory "daily/")
+  ;; (org-roam-dailies-capture-templates
+  ;;  '(
+  ;;    ("j" "journal" plain (file "~/org/templates/journal.org")
+  ;;     :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")
+  ;;     :unnarrowed t)
+  ;;    ))
+  :config
+  (org-roam-db-autosync-mode)
+  )
 
 (projectile-mode 1)
 (yas-global-mode 1)
@@ -141,7 +157,7 @@
 
 ;; (add-to-list 'eglot-server-programs '(nix-mode . ("rnix-lsp")))
 
-(use-package 'nix-mode
+(use-package nix-mode
   :mode "\\.nix\\'")
 
 (defhydra hydra-text-scale (:timeout 4)
@@ -181,6 +197,7 @@
  "q" '(:ignore t :which-key "quit")
  "qq" 'evil-save-and-quit
  "o" '(:ignore t :which-key "org")
+ "o;" 'org-capture
  "oc" 'org-roam-capture
  "oa" 'org-agenda
  "os" 'org-store-link
@@ -213,6 +230,14 @@
  "md" 'lsp-describe-thing-at-point
  "mf" 'rustic-format-dwim
  )
+
+(general-def
+ :states '(normal motion visual)
+ :keymaps 'emacs-lisp-mode-map
+ :prefix "SPC"
+ "m" '(:ignore t :which-key "elisp-mode")
+ "me" 'eval-defun
+  )
 
 (general-def
  :states '(normal motion visual)
